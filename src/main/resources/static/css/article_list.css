@@ -1,0 +1,168 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body{
+    background-color: #121212 !important;
+}
+
+.nav-link{
+    font-weight: bold;
+}
+.navbar{
+    padding: 0.2vw 5vw !important;
+}
+.new{
+    margin: 0 0 4vw 0;
+    border: 1px solid #EAEAEA;  
+}
+.navbar-nav {
+    width: 100% !important;
+}
+
+
+/*NEW*/
+.page_title {
+    color: #fff;
+    background-color: forestgreen;
+    padding-top: 0.5vw;
+}
+.article{
+    margin: 1vw 0 !important;
+    padding: 0 !important;
+}
+
+.pic img{
+    width: 100%;
+    margin-left: -15px;
+}
+.article_title {
+    color: white;
+    padding: 1vw 0 !important;
+}
+.main_title{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+.main_title:hover {
+    color: hotpink;
+    text-decoration: none;
+}
+.cate:hover span{
+    background-color: blueviolet!important;
+}
+
+.top, .comment {
+    margin: 4vw 0;
+    border: 1px solid #EAEAEA;  
+}
+
+.top_title{
+    color: #fff;
+    background-color: red;
+    padding-top: 0.5vw;
+}
+
+.top_item {
+    display: flex;
+    margin: 0.5vw;
+}
+.top_item a {
+    width: 40%;
+}
+.top_item img{
+    width: 100%;
+}
+.top_info {
+    font: 16px !important;
+    color: #fff;
+    margin: 1vw;
+}
+
+.cmt_title{
+    color: #fff;
+    background-color: cadetblue;
+    padding-top: 0.5vw;
+}
+
+.cmt_item {
+    display: flex;
+    margin: 0.5vw;
+}
+.cmt_name{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+.cmt_item a{
+    width: 25%;
+}
+.cmt_name:hover {
+    color: hotpink;
+    text-decoration: none;
+}
+.cmt_item img{
+    width: 100%;
+}
+.cmt_info {
+    font: 16px !important;
+    color: #fff;
+    margin-left: 0.5vw;
+}
+.cmt_info p{
+    margin-bottom: 0.5vw;
+}
+.cmt_article {
+    color: #EAEAEA;
+    opacity: 0.6;
+}
+.cmt_article:hover {
+    text-decoration: none;
+    opacity: 1;
+    color: #EAEAEA;
+}
+footer{
+    color: #fff;
+}
+
+.pagination {
+    display: inline-block;
+    margin: 1vw auto;
+}
+
+.pagination a {
+    color: #fff;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    text-decoration: none;
+}
+.pagination a:hover {
+    text-decoration: none;
+}
+
+.page{
+    color: #fff;
+    padding: 2vw 0;
+}
+
+
+
+
+
+
+
+
+
+
+

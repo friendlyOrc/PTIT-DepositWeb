@@ -1,0 +1,256 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body{
+    background-color: #121212 !important;
+}
+
+/*NAV*/
+.badge{
+    background-color: none !important;
+}
+.nav-link{
+    font-weight: bold;
+}
+.navbar{
+    padding: 0.2vw 5vw !important;
+}
+.hot, .new{
+    margin: 4vw 0;
+    border: 1px solid #EAEAEA;  
+}
+.hot_title {
+    color: #fff;
+    background-color: red;
+    padding-top: 0.5vw;
+}
+.hot_item{
+    border: 1px solid #fff !important;
+/*    margin: 0 1vw;*/
+    padding: 0 !important;
+    padding-bottom: 1vw !important;
+}
+.hot_item a{
+    color: #fff;
+    text-decoration: none !important;
+}
+.hot_item img{
+    width: 100%;
+}
+.middle{
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+.hot_item:hover a{
+    color: hotpink;
+}
+.hot_item:hover img{
+    opacity: 0.5;
+}
+
+.hot_item:hover .middle{
+    opacity: 1; 
+}
+
+.text {
+    background-color: hotpink;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 16px 32px;
+}
+.navbar-nav {
+    width: 100% !important;
+}
+
+
+/*NEW*/
+.new_title {
+    color: #fff;
+    background-color: forestgreen;
+    padding-top: 0.5vw;
+}
+.new_item{
+    margin: 1vw 0 !important;
+    padding: 0 !important;
+}
+
+.pic img{
+    width: 100%;
+    margin-left: -15px;
+}
+.article_title {
+    color: white;
+    padding: 1vw 0 !important;
+}
+.main_title{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+.main_title:hover {
+    color: hotpink;
+    text-decoration: none;
+}
+.cate:hover span{
+    background-color: blueviolet!important;
+}
+
+.random_pic, .top, .comment {
+    margin: 4vw 0;
+    border: 1px solid #EAEAEA;  
+}
+.random_pic img {
+    width: 100%;
+}
+.rd_title {
+    color: #fff;
+    background-color: hotpink;
+    padding-top: 0.5vw;
+}
+
+.top_title{
+    color: #fff;
+    background-color: red;
+    padding-top: 0.5vw;
+}
+
+.top_item {
+    display: flex;
+    margin: 0.5vw;
+}
+.top_item a {
+    width: 40%;
+}
+.top_item img{
+    width: 100%;
+}
+.top_info {
+    font: 16px !important;
+    color: #fff;
+    margin: 1vw;
+}
+
+.cmt_title{
+    color: #fff;
+    background-color: cadetblue;
+    padding-top: 0.5vw;
+}
+
+.cmt_item {
+    display: flex;
+    margin: 0.5vw;
+}
+.cmt_name{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+.cmt_item a{
+    width: 25%;
+}
+.cmt_name:hover {
+    color: hotpink;
+    text-decoration: none;
+}
+.cmt_item img{
+    width: 100%;
+}
+.cmt_info {
+    font: 16px !important;
+    color: #fff;
+    margin-left: 0.5vw;
+}
+.cmt_info p{
+    margin-bottom: 0.5vw;
+}
+.cmt_article {
+    color: #EAEAEA;
+    opacity: 0.6;
+}
+.cmt_article:hover {
+    text-decoration: none;
+    opacity: 1;
+    color: #EAEAEA;
+}
+footer{
+    color: #fff;
+}
+
+.article_info {
+    margin: 2vw auto;
+}
+.article_img {
+    width: 100%;
+}
+.article_img img{
+    width: 100%;
+    box-shadow: 5px 5px #EAEAEA;
+}
+.article_img_btn {
+    margin: 2vw auto;
+}
+.article_des {
+    border: 1px solid #EAEAEA;
+    margin-top: 1vw;
+}
+
+.article_des_title {
+    background-color: darkred;
+    color: #fff;    
+    font-weight: bold;
+    padding: 0.5vw 1vw!important;
+}
+
+.full_des {
+    margin-top: 1vw;
+    color: #fff;
+}
+#ar_name {
+    font-weight: bold;
+    font-size: 24px;
+    color: hotpink;
+}
+
+
+/* RANDOM PIC  */
+#rdImg {
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  #rdImg:hover {opacity: 0.7;}
+  
+  The Modal (background)
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 2vw; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+
+  }
+  
+  /* Modal Content (Image) */
+  .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 400px;
+  }
+  
+

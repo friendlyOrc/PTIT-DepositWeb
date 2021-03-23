@@ -1,0 +1,213 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body{
+    background-color: #121212 !important;
+}
+
+/*HOT*/
+.badge{
+    background-color: none !important;
+}
+.nav-link{
+    font-weight: bold;
+}
+.navbar{
+    padding: 0.2vw 5vw !important;
+}
+.new{
+    margin: 4vw 0;
+    border: 1px solid #EAEAEA;  
+    color: #fff;
+}
+.navbar-nav {
+    width: 100% !important;
+}
+
+
+/*NEW*/
+.new_title {
+    color: #fff;
+    background-color: cadetblue;
+    padding-top: 0.5vw;
+}
+.new_item{
+    margin: 1vw 0 !important;
+    padding: 0 !important;
+}
+
+.pic img{
+    width: 100%;
+    margin-left: -15px;
+}
+.article_title {
+    color: white;
+    padding: 1vw 0 !important;
+}
+.main_title{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+.main_title:hover {
+    color: hotpink;
+    text-decoration: none;
+}
+.cate:hover span{
+    background-color: blueviolet!important;
+}
+
+.top{
+    margin: 4vw 0;
+    border: 1px solid #EAEAEA;  
+}
+
+.top_title{
+    color: #fff;
+    background-color: orange;
+    padding-top: 0.5vw;
+}
+
+.top_item {
+    display: flex;
+    margin: 0.5vw;
+}
+.top_item a {
+    width: 40%;
+}
+.top_item img{
+    width: 100%;
+}
+.top_info {
+    font: 16px !important;
+    color: #fff;
+    margin: 1vw;
+}
+
+footer{
+    color: #fff;
+}
+
+.article_info {
+    margin: 2vw auto;
+}
+.article_img {
+    width: 100%;
+}
+.article_img img{
+    width: 100%;
+    box-shadow: 5px 5px #EAEAEA;
+}
+.article_img_btn {
+    margin: 2vw auto;
+}
+.article_des {
+    border: 1px solid #EAEAEA;
+}
+
+.article_des_title {
+    background-color: darkred;
+    color: #fff;    
+    font-weight: bold;
+    padding: 0.5vw 1vw!important;
+}
+
+.full_des {
+    margin-top: 1vw;
+    color: #fff;
+}
+#ar_name {
+    font-weight: bold;
+    font-size: 24px;
+    color: hotpink;
+}
+
+.chapter {
+    padding: 1vw;
+    margin: 0 auto;
+}
+.chapter a{
+    color: hotpink;
+}
+.chapter a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+.chapter:not(:last-child){
+    border-bottom: 1px solid #fff;
+}
+
+
+.cmt_title{
+    color: #fff;
+    background-color: darkolivegreen;
+    padding-top: 0.5vw;
+}
+
+.cmt_item {
+    display: flex;
+    margin-top: 0.5vw;
+    width: 100%;
+}
+.cmt_name{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+.cmt_item a{
+    width: 25%;
+}
+.cmt_name:hover {
+    color: hotpink;
+    text-decoration: none;
+}
+.cmt_info {
+    font: 16px !important;
+    color: #fff;
+    margin-left: 0.5vw;
+}
+.cmt_info p{
+    margin-bottom: 0.5vw;
+}
+#cmt_section {
+    border: 1px solid #EAEAEA;
+}
+#comment {
+    margin: 2vw auto;
+    color: #fff;
+}
+
+.pagination {
+    display: inline-block;
+    margin: 1vw auto;
+}
+
+.pagination a {
+    color: #fff;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    text-decoration: none;
+}
+.pagination a:hover {
+    text-decoration: none;
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<title>Admin</title>
+
+<head th:replace="head::head">
+
+<body>
+    <nav th:replace="general::navs">
+
+    </nav>
+	<div class="row">
+        <div th:replace="general::sidebar">
+
+        </div>
+            
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">	
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li class="active">Trang chủ </li>
+                    <li class=""> / Thêm User</li>
+                </ol>
+            </div>
+            
+            <div class="row page-header">
+                <div class="col-sm-12">
+                    <h1>Thêm User</h1> 
+                </div>
+            </div>
+            <div class="row add_user">
+                <div class="col-6">
+                    <div th:switch="${msg}"> 
+                        <div th:case="dup"><div class="alert alert-danger" >Người dùng đã đăng kí!</div></div>
+                        <div th:case="dupacc"><div class="alert alert-danger" >Tên người dùng đã được sử dụng!</div></div>
+                        <div th:case="fail"><div class="alert alert-danger" >Tại khoản không hợp lệ!</div></div>
+                        <div th:case="success"><div class="alert alert-success" >Đăng kí thành công tài khoản <span th:text="${username}"></span> mật khẩu là <span th:text="${pass}"></span>!</div></div>
+                        <p th:case="*"></p> 
+                    </div>
+                    <form role="form" method="POST" th:object="${account}">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="name">Họ và tên</label>
+                                <input class="form-control" placeholder="Họ và tên" th:field="*{name}" type="text" name="name" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dob">Ngày tháng năm sinh</label>
+                                <input class="form-control" placeholder="Ngày tháng năm sinh" th:field="*{dob}" type="date" name="dob" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Chọn giới tính</label> <br>
+                                <input th:field="*{sex}" type="radio" name="fmale" value="0">
+                                <label for="0">Nam</label> <br>
+                                <input th:field="*{sex}" type="radio" name="male" value="1">
+                                <label for="1">Nữ</label><br>
+                                <input th:field="*{sex}" type="radio" name="male" value="2">
+                                <label for="2">Khác</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="addr">Địa chỉ</label>
+                                <input class="form-control" placeholder="Địa chỉ" th:field="*{address}" type="text" name="addr" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="idcard">Số chứng minh thư/CCCD</label>
+                                <input class="form-control" placeholder="Chứng minh thư/CCCD" th:field="*{idcard}" type="text" name="idcard" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="username">Tên đăng nhập</label>
+                                <input class="form-control" placeholder="Tên đăng nhập" th:field="*{username}" type="text" name="username" required> 
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success" name="sbm">Thêm user</button>
+                        </fieldset>
+                    </form>
+                </div>
+                
+                  
+            </div>
+        </div>	<!--/.main-->
+    </div>	
+	
+    <div th:replace="js::js">
+
+    </div>
+</body>
+
+</html>

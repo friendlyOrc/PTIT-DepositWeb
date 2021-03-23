@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head th:replace="head::head">
+
+<body>
+    <nav th:replace="general::nav">
+
+    </nav>
+	<div class="row">
+        <div th:replace="general::sidebar">
+
+        </div>
+            
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">	
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li class="active">Trang chủ </li>
+                    <li class=""> / Tĩnh lãi</li>
+                </ol>
+            </div>
+            
+            <div class="row page-header">
+                <div class="col-sm-12">
+                    <h1>Tính lãi</h1> 
+                </div>
+            </div>
+            <div class="row add_user">
+                <div class="col-6">
+                    <div class="alert alert-danger" style="display: none;" id="warning">Thông tin không hợp lệ!</div>
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="type">Phương thức tính lãi tiết kiệm</label> <br>
+                                <select name="type" id="term" class="custom-select">
+                                    <option value="1">Lãnh lãi cuối kì</option>
+                                    <option value="2">Lãnh lãi hàng tháng</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="input">Tiền gửi (VND)</label>
+                                <input class="form-control" placeholder="Tiền gửi ban đầu"  type="text" name="input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="interest">Lãi suất (%)</label>
+                                <input class="form-control" placeholder="Lãi suất" type="text" name="interest" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="time">Kỳ hạn (Tháng)</label>
+                                <input class="form-control" placeholder="Kỳ hạn gửi"  type="text" name="time" required> 
+                            </div>
+                            
+                            <button  class="btn btn-success" onclick="calc()">Tính</button>
+                        </fieldset>
+                   
+                </div>
+                
+                <div class="col-6">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tổng số tiền</th>
+                                <th>Tiền lãi</th>
+                                <th>Tiền lãi định kỳ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="sum"></td>
+                                <td id="interest__sum"></td>
+                                <td id="interest"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                  
+            </div>
+        </div>	<!--/.main-->
+    </div>	
+	
+    <div th:replace="js::js">
+
+    </div>
+</body>
+<script>
+    function isInt(n){
+        return Number(n) === n && n % 1 === 0;
+    }
+
+    function isFloat(n){
+        return Number(n) === n && n % 1 !== 0;
+    }
+
+
+    function calc(){
+        let sum = 0;
+        let int__sum = 0;
+        let inte = 0;
+        let money = parseFloat(document.getElementsByName('input')[0].value);
+        let interest = parseFloat(document.getElementsByName('interest')[0].value);
+        let time = parseFloat(document.getElementsByName('time')[0].value);
+
+        if( (isFloat(money) || isInt(money)) 
+        && (isFloat(interest) || isInt(interest)) 
+        && (isFloat(time) || isInt(time)) ){
+            let type = document.getElementsByName('type')[0].value;
+            if(type == 1){
+                int__sum = money*(interest/100)*(time/12);
+                sum = money + int__sum;
+
+            }else{
+                int__sum = money*(interest/100)*(time/12);
+                sum = money + int__sum;
+                inte = int__sum/time;
+            }
+            document.getElementById('warning').style.display = "none";
+            document.getElementById('sum').innerHTML = Math.round(sum * 100) / 100;
+            document.getElementById('interest__sum').innerHTML =  Math.round(int__sum * 100) / 100;
+            document.getElementById('interest').innerHTML =  Math.round(inte * 100) / 100;
+
+        }else{
+            document.getElementById('warning').style.display = "block";
+        }
+    }
+</script>
+</html>
