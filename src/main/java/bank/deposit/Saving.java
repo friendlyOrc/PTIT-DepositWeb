@@ -15,8 +15,8 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "account")
-public class Account implements Serializable {
+@Table(name = "saving")
+public class Saving implements Serializable {
     /**
      *
      */
@@ -25,22 +25,19 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
-    private String name;
+    private float balance;
     @NotNull
-    private Date dob;
+    private int status;
     @NotNull
-    private int sex;
+    private float interest;
     @NotNull
-    private String address;
+    private int time;
     @NotNull
-    private String idcard;
-    @NotNull
-    private String username;
-    @NotNull
-    private String password;
-    @NotNull
-    private int role;
+    @Column(name = "createtime")
+    private Date createTime;
+    
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Saving> savings;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "accountid")
+    private Account account;
 }

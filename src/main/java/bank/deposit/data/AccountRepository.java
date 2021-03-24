@@ -23,4 +23,6 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     @Query(value = "SELECT * FROM `account` WHERE id = ?1", nativeQuery = true)
     Account findOneAccount(int i);
 
+    @Query(value = "SELECT * FROM `account` WHERE name LIKE %?1%", nativeQuery = true)
+    ArrayList<Account> findByUserName(String name);
 }

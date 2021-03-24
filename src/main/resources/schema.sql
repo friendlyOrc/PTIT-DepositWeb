@@ -14,9 +14,11 @@ create table if not exists `account`(
 create table if not exists saving(
 	id int primary key auto_increment,
     accountid int not null,
-    `type` int not null,
+    `status` int not null,
     balance float not null, 
     interest float not null,
+    `time` int not null,
+    createtime date not null,
     foreign key saving(accountid) references `account`(id)
 );
 
