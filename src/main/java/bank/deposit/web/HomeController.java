@@ -89,6 +89,7 @@ public class HomeController {
         }
 
         model.addAttribute("page", "Home");
+        model.addAttribute("title", "Bank - Homepage");
         return "home";
 
     }
@@ -191,15 +192,15 @@ public class HomeController {
     }
 
     @GetMapping("/create")
-    public String create(@RequestParam(required = false, name = "id") String accId, Model model, HttpSession session){
+    public String create(@RequestParam(required = false, name = "id") String accId, Model model, HttpSession session) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
         }
         model.addAttribute("page", "Create");
-        if(accId == null){
+        if (accId == null) {
             model.addAttribute("title", "Search Account");
             return "search_account";
-        }else{
+        } else {
 
             model.addAttribute("title", "Open Saving Account");
             Saving saving = new Saving();
@@ -213,26 +214,26 @@ public class HomeController {
     }
 
     @PostMapping("/create")
-    public String createSaving(@RequestParam(required = false, name = "id") String accId, Saving saving, Model model, HttpSession session){
-        if (specialKey(String.valueOf(saving.getBalance())) 
-            && specialKey(String.valueOf(saving.getInterest()))
-            && specialKey(String.valueOf(saving.getTime()))) {
+    public String createSaving(@RequestParam(required = false, name = "id") String accId, Saving saving, Model model,
+            HttpSession session) {
+        if (specialKey(String.valueOf(saving.getBalance())) && specialKey(String.valueOf(saving.getInterest()))
+                && specialKey(String.valueOf(saving.getTime()))) {
 
-            if(Double.isNaN(saving.getBalance()) || Double.isNaN(saving.getInterest()) || Double.isNaN(saving.getTime())){
+            if (Double.isNaN(saving.getBalance()) || Double.isNaN(saving.getInterest())
+                    || Double.isNaN(saving.getTime())) {
                 model.addAttribute("msg", "fail");
-            }else{
-                if(saving.getBalance() <= 0 || saving.getInterest() <= 0 || saving.getTime() <= 0){
+            } else {
+                if (saving.getBalance() <= 0 || saving.getInterest() <= 0 || saving.getTime() <= 0) {
                     model.addAttribute("msg", "zero");
-                }else{
-                    long millis = System.currentTimeMillis();  
-                    Date date = new java.sql.Date(millis);  
+                } else {
+                    long millis = System.currentTimeMillis();
+                    Date date = new java.sql.Date(millis);
                     Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
                     saving.setAccount(acc);
                     saving.setCreateTime(date);
                     saving.setStatus(1);
                     savRepo.save(saving);
 
-                    
                     model.addAttribute("saving", new Saving());
                     model.addAttribute("cusAcc", acc);
                     model.addAttribute("msg", "success");
@@ -241,7 +242,7 @@ public class HomeController {
         } else {
             model.addAttribute("msg", "fail");
         }
-        
+
         model.addAttribute("title", "Open Saving Account");
         return "create";
     }
@@ -259,7 +260,6 @@ public class HomeController {
             result.setMsg("success");
         }
         result.setResult(users);
-        System.out.println(users.get(0).getSavings().size());
 
         return ResponseEntity.ok(result);
 
@@ -270,7 +270,7 @@ public class HomeController {
 
         AjaxResponseBody result = new AjaxResponseBody();
 
-        Saving sav =  savRepo.findSaving(id);
+        Saving sav = savRepo.findSaving(id);
         if (sav == null) {
             result.setMsg("no user found!");
         } else {
@@ -290,7 +290,7 @@ public class HomeController {
         AjaxResponseBody result = new AjaxResponseBody();
 
         savRepo.pullout(id);
-        Saving sav =  savRepo.findSaving(id);
+        Saving sav = savRepo.findSaving(id);
         if (sav.getStatus() == 1) {
             result.setMsg("Error!");
         } else {
@@ -305,15 +305,16 @@ public class HomeController {
     }
 
     @GetMapping("/pullout")
-    public String publlout(@RequestParam(required = false, name = "id") String accId, Model model, HttpSession session){
+    public String publlout(@RequestParam(required = false, name = "id") String accId, Model model,
+            HttpSession session) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
         }
         model.addAttribute("page", "Pullout");
-        if(accId == null){
+        if (accId == null) {
             model.addAttribute("title", "Search Account");
             return "search_account_sav";
-        }else{
+        } else {
             model.addAttribute("title", "Saving List");
 
             ArrayList<Saving> savings = savRepo.findAllSaving(Integer.parseInt(accId));

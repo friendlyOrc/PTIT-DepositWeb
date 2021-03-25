@@ -9,6 +9,9 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "account")
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class Account implements Serializable {
     /**
      *
