@@ -15,10 +15,6 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
-		 <source>11</source> 
-		<target>11</target> 
-		<testSource>11</testSource> 
-		<testTarget>11</testTarget> 
 	</properties>
 	<dependencies>
 		<dependency>
@@ -75,6 +71,11 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					
+					<source>11</source> 
+					<target>11</target> 
+					<testSource>11</testSource> 
+					<testTarget>11</testTarget> 
 				</configuration>
 			</plugin>
 		</plugins>
