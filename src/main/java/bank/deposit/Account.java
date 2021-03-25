@@ -7,6 +7,8 @@ import java.util.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +42,8 @@ public class Account implements Serializable {
     private String password;
     @NotNull
     private int role;
-
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Saving> savings;
 }

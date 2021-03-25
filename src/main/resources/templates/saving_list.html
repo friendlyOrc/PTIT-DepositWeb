@@ -17,42 +17,53 @@
                     <ol class="breadcrumb">
                         <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
                         <li class="active">Trang chủ </li>
-                        <li class=""> / Tìm tài khoản</li>
+                        <li class=""> / Danh sách sổ tiết kiệm</li>
                     </ol>
                 </div>
 
                 <div class="row page-header">
                     <div class="col-sm-12">
-                        <h1>Tìm tài khoản</h1>
+                        <h1>Danh sách sổ tiết kiệm </h1>
+                        <h5>Chủ tài khoản tài khoản: <span th:text="${cusAcc.name}"></span></h5>
+                        <h5>Số CMT/CCCD: <span th:text="${cusAcc.idcard}"></span></h5>
                     </div>
                 </div>
                 <div class="row add_user">
-                    <div class="col-6">
+                    <div class="col-8">
                         <div class="alert alert-danger" style="display: none;" id="warning">Thông tin không hợp lệ!</div>
                         <div class="alert alert-danger" style="display: none;" id="empty">Không có tài khoản có thông tin trùng khớp!</div>
-                        <fieldset>
-                            <div class="form-group">
-                                <label for="name">Tên chủ tài khoản:</label>
-                                <input class="form-control" placeholder="Tên chủ tài khoản" type="text" name="name" required>
-                            </div>
-
-                            <button class="btn btn-success" onclick="search()">Tìm</button>
-                        </fieldset>
-
-                    </div>
-
-                    <div class="col-6">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Tên chủ tài khoản</th>
-                                    <th>Thao tác</th>
+                                    <th>Số dư</th>
+                                    <th>Lãi suất</th>
+                                    <th>Kỳ hạn</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Trạng thái</th>
                                 </tr>
                             </thead>
-                            <tbody id="rs">
+                            <tbody>
+                                <tr th:each="saving, i: ${savings}">
+                                    <td th:text="${saving.id}" />
+                                    <td th:text="${saving.balance}" />
+                                    <td th:text="${saving.interest}" />
+                                    <td th:text="${saving.time}" />
+                                    <td th:text="${saving.createTime}" />
+                                    <td th:switch="${saving.status}">
+                                        <div th:case="1"><button class="btn btn-success" th:onclick="'info(\'' + ${saving.id} + '\');'">Chưa rút</button></div>
+                                        <div th:case="0"><button class="btn btn-success" disabled>Đã rút</button></div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
+
+                    </div>
+
+                    <div class="col-4">
+                        <div id="info">
+
+                        </div>
                     </div>
 
                 </div>
@@ -61,10 +72,9 @@
         </div>
 
         <div th:replace="js::js">
-
         </div>
     </body>
-    <script>
+    <script th:inline="javascript">
         function isInt(n) {
             return Number(n) === n && n % 1 === 0;
         }
@@ -74,36 +84,49 @@
         }
 
 
-        function search() {
-            let name = document.getElementsByName('name')[0].value;
-            let list = document.getElementById('rs');
-            list.innerHTML = "";
-            if (name == "") {
-                document.getElementById('warning').style.display = "block";
-            } else {
-                document.getElementById('warning').style.display = "none";
+        function info(id) {
+            let info = document.getElementById('info');
 
-                fetch(`http://localhost:8081/search?name=${name}`)
+            fetch(`http://localhost:8081/api/pullout?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    let savList = data.resultSav;
+
+                    savList.forEach(sav => {
+                        let html = `
+                            <h3>Thông tin sổ tiết kiệm</h3>
+                            <p>
+                                <b>Số dư: </b> <span> ${sav.balance}</span>
+                            </p>
+                            <p>
+                                <b>Lãi: </b> <span> ${sav.interest}</span>
+                            </p>
+                            <p>
+                                <b>Kỳ hạn: </b> <span> ${sav.time}</span>
+                            </p>
+                            <p>
+                                <b>Ngày tạo: </b> <span> ${sav.createTime}</span>
+                            </p>
+                            <button class="btn btn-success" onclick="pullout(${sav.id})">Rút sổ</button>
+                            `
+                        info.insertAdjacentHTML("afterbegin", html);
+                    });
+                })
+                .catch(err => console.log(err));
+        }
+
+        function pullout(id) {
+            if (confirm("Bạn chắc chắn muốn rút sổ?")) {
+                fetch(`http://localhost:8081/api/pullout/delete?id=${id}`)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
-                        let accList = data.result;
-                        if (accList.length == 0) {
-                            document.getElementById('empty').style.display = "block";
-                        } else {
-                            document.getElementById('empty').style.display = "none";
-                            accList.forEach(acc => {
-                                let html = `
-                                    <tr>
-                                        <td>${acc.id}</td>
-                                        <td>${acc.name}</td>
-                                        <td><button class="btn btn-success" onclick="window.location.replace('/create?id=${acc.id}')">Tạo sổ tiết kiệm</button></td>
-                                    </tr>`;
-                                list.insertAdjacentHTML("afterbegin", html);
-                            });
-                        }
+                        window.location.reload();
                     })
                     .catch(err => console.log(err));
+            } else {
+
             }
         }
     </script>

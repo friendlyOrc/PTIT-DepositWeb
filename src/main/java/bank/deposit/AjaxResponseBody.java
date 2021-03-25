@@ -1,15 +1,21 @@
 package bank.deposit;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import lombok.Data;
 
 @Data
-public class AjaxResponseBody {
+public class AjaxResponseBody implements Serializable{
 
-    String msg;
-    ArrayList<Account> result;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private String msg;
+    private ArrayList<Account> result;
+    private ArrayList<Saving> resultSav;
 
     //getters and setters
 

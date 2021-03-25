@@ -259,33 +259,70 @@ public class HomeController {
             result.setMsg("success");
         }
         result.setResult(users);
+        System.out.println(users.get(0).getSavings().size());
+
+        return ResponseEntity.ok(result);
+
+    }
+
+    @GetMapping("/api/pullout")
+    public ResponseEntity<?> getSearchResultViaAjaxSaving(@RequestParam(name = "id") int id) {
+
+        AjaxResponseBody result = new AjaxResponseBody();
+
+        Saving sav =  savRepo.findSaving(id);
+        if (sav == null) {
+            result.setMsg("no user found!");
+        } else {
+            result.setMsg("success");
+        }
+        ArrayList<Saving> rs = new ArrayList<>();
+        rs.add(sav);
+        result.setResultSav(rs);
+
+        return ResponseEntity.ok(result);
+
+    }
+
+    @GetMapping("/api/pullout/delete")
+    public ResponseEntity<?> pulloutSaving(@RequestParam(name = "id") int id) {
+
+        AjaxResponseBody result = new AjaxResponseBody();
+
+        savRepo.pullout(id);
+        Saving sav =  savRepo.findSaving(id);
+        if (sav.getStatus() == 1) {
+            result.setMsg("Error!");
+        } else {
+            result.setMsg("success");
+        }
+        ArrayList<Saving> rs = new ArrayList<>();
+        rs.add(sav);
+        result.setResultSav(rs);
 
         return ResponseEntity.ok(result);
 
     }
 
     @GetMapping("/pullout")
-    public String publlout(@RequestParam(required = false, name = "id") String accId, @RequestParam(required = false, name = "savingid") String savId, Model model, HttpSession session){
+    public String publlout(@RequestParam(required = false, name = "id") String accId, Model model, HttpSession session){
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
         }
-        model.addAttribute("page", "Create");
+        model.addAttribute("page", "Pullout");
         if(accId == null){
             model.addAttribute("title", "Search Account");
-            return "search_account";
+            return "search_account_sav";
         }else{
-            if(savId == null){
-                model.addAttribute("title", "Saving List");
-                return "saving_list";
-            }
-            model.addAttribute("title", "Open Saving Account");
-            Saving saving = new Saving();
+            model.addAttribute("title", "Saving List");
+
+            ArrayList<Saving> savings = savRepo.findAllSaving(Integer.parseInt(accId));
             Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
-            saving.setAccount(acc);
-            model.addAttribute("saving", saving);
+
+            model.addAttribute("savings", savings);
             model.addAttribute("cusAcc", acc);
 
-            return "create";
+            return "saving_list";
         }
     }
 }

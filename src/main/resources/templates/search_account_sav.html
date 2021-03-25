@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head th:replace="head::head">
+
+    <body>
+        <nav th:replace="general::nav">
+
+        </nav>
+        <div class="row">
+            <div th:replace="general::sidebar">
+
+            </div>
+
+            <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                        <li class="active">Trang chủ </li>
+                        <li class=""> / Tìm tài khoản</li>
+                    </ol>
+                </div>
+
+                <div class="row page-header">
+                    <div class="col-sm-12">
+                        <h1>Tìm tài khoản</h1>
+                    </div>
+                </div>
+                <div class="row add_user">
+                    <div class="col-6">
+                        <div class="alert alert-danger" style="display: none;" id="warning">Thông tin không hợp lệ!</div>
+                        <div class="alert alert-danger" style="display: none;" id="empty">Không có tài khoản có thông tin trùng khớp!</div>
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="name">Tên chủ tài khoản:</label>
+                                <input class="form-control" placeholder="Tên chủ tài khoản" type="text" name="name" required>
+                            </div>
+
+                            <button class="btn btn-success" onclick="search()">Tìm</button>
+                        </fieldset>
+
+                    </div>
+
+                    <div class="col-6">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên chủ tài khoản</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rs">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!--/.main-->
+        </div>
+
+        <div th:replace="js::js">
+
+        </div>
+    </body>
+    <script>
+        function isInt(n) {
+            return Number(n) === n && n % 1 === 0;
+        }
+
+        function isFloat(n) {
+            return Number(n) === n && n % 1 !== 0;
+        }
+
+
+        function search() {
+            let name = document.getElementsByName('name')[0].value;
+            let list = document.getElementById('rs');
+            list.innerHTML = "";
+            if (name == "") {
+                document.getElementById('warning').style.display = "block";
+            } else {
+                document.getElementById('warning').style.display = "none";
+
+                fetch(`http://localhost:8081/search?name=${name}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        let accList = data.result;
+                        if (accList.length == 0) {
+                            document.getElementById('empty').style.display = "block";
+                        } else {
+                            document.getElementById('empty').style.display = "none";
+                            accList.forEach(acc => {
+                                let html = `
+                                    <tr>
+                                        <td>${acc.id}</td>
+                                        <td>${acc.name}</td>
+                                        <td><button class="btn btn-success" onclick="window.location.replace('/pullout?id=${acc.id}')">Xem danh sách sổ tiết kiệm</button></td>
+                                    </tr>`;
+                                list.insertAdjacentHTML("afterbegin", html);
+                            });
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }
+        }
+    </script>
+
+</html>

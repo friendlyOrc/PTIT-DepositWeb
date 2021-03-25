@@ -7,6 +7,8 @@ import java.util.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +38,7 @@ public class Saving implements Serializable {
     @Column(name = "createtime")
     private Date createTime;
     
-
+    @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "accountid")
     private Account account;
