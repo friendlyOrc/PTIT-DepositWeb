@@ -87,7 +87,8 @@
         function info(id) {
             let info = document.getElementById('info');
 
-            fetch(`http://localhost:8081/api/pullout?id=${id}`)
+            let host = window.location.origin;
+            fetch(`${host}/api/pullout?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);

@@ -82,8 +82,9 @@
                 document.getElementById('warning').style.display = "block";
             } else {
                 document.getElementById('warning').style.display = "none";
-
-                fetch(`http://localhost:8081/search?name=${name}`)
+                let host = window.location.origin;
+                // console.log(window.location);
+                fetch(`${host}/search?name=${name}`)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
