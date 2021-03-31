@@ -78,6 +78,8 @@ public class HomeController {
             return false;
         if (s.indexOf("!") != -1)
             return false;
+        if (s.indexOf("-") != -1)
+            return false;
 
         return true;
     }
@@ -117,14 +119,25 @@ public class HomeController {
 
     @PostMapping("/login")
     public String postLogin(Account account, Model model, HttpSession session) {
-        ArrayList<Account> accList = accRepo.findAccount(account.getUsername(), account.getPassword());
-        if (accList.size() == 1) {
-            session.setAttribute("account", accList.get(0));
-            return "redirect:/";
-        } else {
-            model.addAttribute("msg", "Wrong");
+        try {
+            ArrayList<Account> accList = accRepo.findAccount(account.getUsername(), account.getPassword());
+            if (accList.size() == 1) {
+                session.setAttribute("account", accList.get(0));
+                return "redirect:/";
+            } else {
+                accList = accRepo.findAccountByUsername(account.getUsername());
+                if (accList.size() == 0) {
+                    model.addAttribute("msg", "username");
+                } else {
+                    model.addAttribute("msg", "password");
+                }
+                return "login";
+            }
+        } catch (Exception e) {
+            model.addAttribute("msg", "error");
             return "login";
         }
+
     }
 
     @GetMapping("/members")
@@ -154,29 +167,41 @@ public class HomeController {
 
     @PostMapping("/members")
     public String postMember(Account account, Model model, HttpSession session) {
-        if (specialKey(account.getName()) && specialKey(account.getAddress()) && specialKey(account.getIdcard())
-                && specialKey(account.getUsername()) && verifyId(account.getIdcard())) {
-            ArrayList<Account> accList = accRepo.findAccountByIdcard(account.getIdcard());
-            ArrayList<Account> accList2 = accRepo.findAccountByUsername(account.getUsername());
-            if (accList.size() != 0) {
-                model.addAttribute("msg", "dup");
-            } else if (accList2.size() != 0) {
-                model.addAttribute("msg", "dupacc");
+        try {
+            if (!specialKey(account.getName())) {
+                model.addAttribute("msg", "name");
+            } else if (!specialKey(account.getAddress())) {
+                model.addAttribute("msg", "addr");
+            } else if (!specialKey(account.getIdcard())) {
+                model.addAttribute("msg", "cccd");
+            } else if (!specialKey(account.getUsername())) {
+                model.addAttribute("msg", "acc");
+            } else if (!verifyId(account.getIdcard())) {
+                model.addAttribute("msg", "cccdWord");
             } else {
-                String pass = genPass();
-                account.setPassword(pass);
-                model.addAttribute("username", account.getUsername());
-                model.addAttribute("pass", pass);
-                model.addAttribute("account", new Account());
+                ArrayList<Account> accList = accRepo.findAccountByIdcard(account.getIdcard());
+                ArrayList<Account> accList2 = accRepo.findAccountByUsername(account.getUsername());
+                if (accList.size() != 0) {
+                    model.addAttribute("msg", "dup");
+                } else if (accList2.size() != 0) {
+                    model.addAttribute("msg", "dupacc");
+                } else {
+                    String pass = genPass();
+                    account.setPassword(pass);
+                    model.addAttribute("username", account.getUsername());
+                    model.addAttribute("pass", pass);
+                    model.addAttribute("account", new Account());
 
-                model.addAttribute("msg", "success");
-                accRepo.save(account);
+                    model.addAttribute("msg", "success");
+                    accRepo.save(account);
+                }
             }
-        } else {
+        } catch (Exception e) {
             model.addAttribute("msg", "fail");
         }
 
         model.addAttribute("page", "Member");
+        model.addAttribute("title", "Thêm User");
         return "add_user";
     }
 
@@ -216,33 +241,41 @@ public class HomeController {
     @PostMapping("/create")
     public String createSaving(@RequestParam(required = false, name = "id") String accId, Saving saving, Model model,
             HttpSession session) {
-        if (specialKey(String.valueOf(saving.getBalance())) && specialKey(String.valueOf(saving.getInterest()))
-                && specialKey(String.valueOf(saving.getTime()))) {
+        if (!specialKey(String.valueOf(saving.getBalance()))) {
+            model.addAttribute("msg", "speBal");
+        } else if (!specialKey(String.valueOf(saving.getInterest()))) {
+            model.addAttribute("msg", "speInt");
+        } else if (!specialKey(String.valueOf(saving.getTime()))) {
+            model.addAttribute("msg", "speTime");
+        } else {
 
-            if (Double.isNaN(saving.getBalance()) || Double.isNaN(saving.getInterest())
-                    || Double.isNaN(saving.getTime())) {
-                model.addAttribute("msg", "fail");
+            if (saving.getBalance() <= 1000000) {
+                model.addAttribute("msg", "smInp");
+            } else if (saving.getInterest() <= 0) {
+                model.addAttribute("msg", "smInt");
+            } else if (saving.getTime() <= 0) {
+                model.addAttribute("msg", "smTime");
             } else {
-                if (saving.getBalance() <= 0 || saving.getInterest() <= 0 || saving.getTime() <= 0) {
-                    model.addAttribute("msg", "zero");
-                } else {
-                    long millis = System.currentTimeMillis();
-                    Date date = new java.sql.Date(millis);
+                long millis = System.currentTimeMillis();
+                Date date = new java.sql.Date(millis);
+                try {
                     Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
                     saving.setAccount(acc);
                     saving.setCreateTime(date);
                     saving.setStatus(1);
                     savRepo.save(saving);
+                    saving = new Saving();
+                } catch (Exception e) {
+                    model.addAttribute("msg", "fail");
 
-                    model.addAttribute("saving", new Saving());
-                    model.addAttribute("cusAcc", acc);
-                    model.addAttribute("msg", "success");
                 }
+
             }
-        } else {
-            model.addAttribute("msg", "fail");
         }
 
+        Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
+        model.addAttribute("saving", saving);
+        model.addAttribute("cusAcc", acc);
         model.addAttribute("title", "Open Saving Account");
         return "create";
     }

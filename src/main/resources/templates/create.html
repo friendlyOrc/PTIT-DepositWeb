@@ -32,10 +32,25 @@
                     <div class="col-6">
                         <div th:switch="${msg}">
                             <div th:case="fail">
-                                <div class="alert alert-danger">Thông tin không hợp lệ!</div>
+                                <div class="alert alert-danger">Lỗi kết nối!</div>
+                            </div>
+                            <div th:case="smInp">
+                                <div class="alert alert-danger">Tiền gửi quá nhỏ!</div>
+                            </div>
+                            <div th:case="smInt">
+                                <div class="alert alert-danger">Lãi suất quá nhỏ!</div>
+                            </div>
+                            <div th:case="smTime">
+                                <div class="alert alert-danger">Kỳ hạn quá nhỏ!</div>
+                            </div>
+                            <div th:case="speInp">
+                                <div class="alert alert-danger">Tiền gửi không được chứa ký tự khác ngoài chữ số!</div>
                             </div>
                             <div th:case="zero">
-                                <div class="alert alert-danger">Giá trị không hợp lệ!</div>
+                                <div class="alert alert-danger">Lãi suất không được chứa ký tự khác ngoài chữ số!</div>
+                            </div>
+                            <div th:case="zero">
+                                <div class="alert alert-danger">Kỳ hạn không được chứa ký tự khác ngoài chữ số!</div>
                             </div>
                             <div th:case="success">
                                 <div class="alert alert-success">Tạo sổ tiết kiệm thành công!</div>
@@ -47,16 +62,16 @@
                             <form action="" method="POST" th:object="${saving}">
                                 <div class="form-group">
                                     <label for="input">Tiền gửi (VND)</label>
-                                    <input class="form-control" placeholder="Tiền gửi ban đầu" type="text" th:field="*{balance}" name="input" required>
+                                    <input class="form-control" placeholder="Tiền gửi ban đầu" type="number" th:field="*{balance}" name="input" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="interest">Lãi suất (%)</label>
-                                    <input class="form-control" placeholder="Lãi suất" type="text" th:field="*{interest}" name="interest" required>
+                                    <input class="form-control" placeholder="Lãi suất" type="number" th:field="*{interest}" name="interest" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="time">Kỳ hạn (Tháng)</label>
-                                    <input class="form-control" placeholder="Kỳ hạn gửi" type="text" th:field="*{time}" name="time" required>
+                                    <input class="form-control" placeholder="Kỳ hạn gửi" type="number" th:field="*{time}" name="time" required>
                                 </div>
 
                                 <button class="btn btn-success" type="submit">Tạo</button>
@@ -74,46 +89,6 @@
 
         </div>
     </body>
-    <script>
-        function isInt(n) {
-            return Number(n) === n && n % 1 === 0;
-        }
-
-        function isFloat(n) {
-            return Number(n) === n && n % 1 !== 0;
-        }
-
-
-        function calc() {
-            let sum = 0;
-            let int__sum = 0;
-            let inte = 0;
-            let money = parseFloat(document.getElementsByName('input')[0].value);
-            let interest = parseFloat(document.getElementsByName('interest')[0].value);
-            let time = parseFloat(document.getElementsByName('time')[0].value);
-
-            if ((isFloat(money) || isInt(money)) &&
-                (isFloat(interest) || isInt(interest)) &&
-                (isFloat(time) || isInt(time))) {
-                let type = document.getElementsByName('type')[0].value;
-                if (type == 1) {
-                    int__sum = money * (interest / 100) * (time / 12);
-                    sum = money + int__sum;
-
-                } else {
-                    int__sum = money * (interest / 100) * (time / 12);
-                    sum = money + int__sum;
-                    inte = int__sum / time;
-                }
-                document.getElementById('warning').style.display = "none";
-                document.getElementById('sum').innerHTML = Math.round(sum * 100) / 100;
-                document.getElementById('interest__sum').innerHTML = Math.round(int__sum * 100) / 100;
-                document.getElementById('interest').innerHTML = Math.round(inte * 100) / 100;
-
-            } else {
-                document.getElementById('warning').style.display = "block";
-            }
-        }
-    </script>
+    
 
 </html>

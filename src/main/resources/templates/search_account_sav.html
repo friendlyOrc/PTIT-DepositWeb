@@ -28,7 +28,8 @@
                 </div>
                 <div class="row add_user">
                     <div class="col-6">
-                        <div class="alert alert-danger" style="display: none;" id="warning">Thông tin không hợp lệ!</div>
+                        <div class="alert alert-danger" style="display: none;" id="warning">Không được bỏ trống thông tin!</div>
+                        <div class="alert alert-danger" style="display: none;" id="error">Tên không được chứa ký tự đặc biệt!</div>
                         <div class="alert alert-danger" style="display: none;" id="empty">Không có tài khoản có thông tin trùng khớp!</div>
                         <fieldset>
                             <div class="form-group">
@@ -75,13 +76,20 @@
 
 
         function search() {
+            const regex = new RegExp('[!@#$%^&=*(),.?:{}|<>]');
             let name = document.getElementsByName('name')[0].value;
             let list = document.getElementById('rs');
+            document.getElementById('warning').style.display = "none";
+            document.getElementById('error').style.display = "none";
+            document.getElementById('empty').style.display = "none";
             list.innerHTML = "";
             if (name == "") {
                 document.getElementById('warning').style.display = "block";
+            }else if(regex.test(name)){
+                document.getElementById('error').style.display = "block";
             } else {
                 document.getElementById('warning').style.display = "none";
+                document.getElementById('error').style.display = "none";
                 let host = window.location.origin;
                 // console.log(window.location);
                 fetch(`${host}/search?name=${name}`)

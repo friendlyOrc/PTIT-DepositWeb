@@ -30,9 +30,14 @@
             <div class="row add_user">
                 <div class="col-6">
                     <div th:switch="${msg}"> 
-                        <div th:case="dup"><div class="alert alert-danger" >Người dùng đã đăng kí!</div></div>
+                        <div th:case="name"><div class="alert alert-danger" >Tên không được chứa ký tự đặc biệt!</div></div>
+                        <div th:case="addr"><div class="alert alert-danger" >Địa chỉ không được chứa ký tự đặc biệt!</div></div>
+                        <div th:case="cccd"><div class="alert alert-danger" >Số CMT/CCCD không được chứa ký tự đặc biệt!</div></div>
+                        <div th:case="cccdWord"><div class="alert alert-danger" >Số CMT/CCCD không hợp lệ!</div></div>
+                        <div th:case="acc"><div class="alert alert-danger" >Tên đăng nhập không được chứa ký tự đặc biệt!</div></div>
+                        <div th:case="dup"><div class="alert alert-danger" >Người dùng đã đăng kí trước đó!</div></div>
                         <div th:case="dupacc"><div class="alert alert-danger" >Tên người dùng đã được sử dụng!</div></div>
-                        <div th:case="fail"><div class="alert alert-danger" >Tại khoản không hợp lệ!</div></div>
+                        <div th:case="fail"><div class="alert alert-danger" >Lỗi kết nối!</div></div>
                         <div th:case="success"><div class="alert alert-success" >Đăng kí thành công tài khoản <span th:text="${username}"></span> mật khẩu là <span th:text="${pass}"></span>!</div></div>
                         <p th:case="*"></p> 
                     </div>

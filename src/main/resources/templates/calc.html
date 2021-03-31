@@ -28,7 +28,15 @@
             </div>
             <div class="row add_user">
                 <div class="col-6">
-                    <div class="alert alert-danger" style="display: none;" id="warning">Thông tin không hợp lệ!</div>
+                    <!-- <div class="alert alert-danger" style="display: none;" id="smInp">Thông tin không hợp lệ!</div>
+                    <div class="alert alert-danger" style="display: none;" id="smTnt">Thông tin không hợp lệ!</div>
+                    <div class="alert alert-danger" style="display: none;" id="smTime">Thông tin không hợp lệ!</div> -->
+                    <div class="alert alert-danger" style="display: none;" id="speInp">Tiền gửi không được chứa ký tự khác ngoài chữ số!</div>
+                    <div class="alert alert-danger" style="display: none;" id="speInt">Lãi suất không được chứa ký tự khác ngoài chữ số!</div>
+                    <div class="alert alert-danger" style="display: none;" id="speTime">Kỳ hạn không được chứa ký tự khác ngoài chữ số!</div>
+                    <div class="alert alert-danger" style="display: none;" id="empInp">Tiền gửi không được để trống!</div>
+                    <div class="alert alert-danger" style="display: none;" id="empInt">Lãi suất không được để trống!</div>
+                    <div class="alert alert-danger" style="display: none;" id="empTime">Kỳ hạn không được để trống!</div>
                         <fieldset>
                             <div class="form-group">
                                 <label for="type">Phương thức tính lãi tiết kiệm</label> <br>
@@ -94,16 +102,40 @@
 
 
     function calc(){
+        const regex = new RegExp('[!@#$%^&*(),.?:{}|<>]');
         let sum = 0;
         let int__sum = 0;
         let inte = 0;
         let money = parseFloat(document.getElementsByName('input')[0].value);
         let interest = parseFloat(document.getElementsByName('interest')[0].value);
         let time = parseFloat(document.getElementsByName('time')[0].value);
+        
+        document.getElementById('speInp').style.display = "none";
+        document.getElementById('speInt').style.display = "none";
+        document.getElementById('speTime').style.display = "none";
+        document.getElementById('empInp').style.display = "none";
+        document.getElementById('empInt').style.display = "none";
+        document.getElementById('empTime').style.display = "none";
 
-        if( (isFloat(money) || isInt(money)) 
-        && (isFloat(interest) || isInt(interest)) 
-        && (isFloat(time) || isInt(time)) ){
+        if((!isFloat(money) && !isInt(money)) || regex.test(document.getElementsByName('input')[0].value)){
+            if(document.getElementsByName('input')[0].value == ""){
+                document.getElementById('empInp').style.display = "block";
+            }else{
+                document.getElementById('speInp').style.display = "block";
+            }
+        } else if((!isFloat(interest) && !isInt(interest)) || regex.test(document.getElementsByName('interest')[0].value)){
+            if(document.getElementsByName('interest')[0].value == ""){
+                document.getElementById('empInt').style.display = "block";
+            }else{
+                document.getElementById('speInt').style.display = "block";
+            }
+        }else if(!isFloat(time) && !isInt(time) || regex.test(document.getElementsByName('time')[0].value)){
+            if(document.getElementsByName('time')[0].value == ""){
+                document.getElementById('empTime').style.display = "block";
+            }else{
+                document.getElementById('speTime').style.display = "block";
+            }
+        }else{
             let type = document.getElementsByName('type')[0].value;
             if(type == 1){
                 int__sum = money*(interest/100)*(time/12);
@@ -114,13 +146,9 @@
                 sum = money + int__sum;
                 inte = int__sum/time;
             }
-            document.getElementById('warning').style.display = "none";
             document.getElementById('sum').innerHTML = Math.round(sum * 100) / 100;
             document.getElementById('interest__sum').innerHTML =  Math.round(int__sum * 100) / 100;
             document.getElementById('interest').innerHTML =  Math.round(inte * 100) / 100;
-
-        }else{
-            document.getElementById('warning').style.display = "block";
         }
     }
 </script>
