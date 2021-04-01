@@ -91,7 +91,7 @@ public class HomeController {
         }
 
         model.addAttribute("page", "Home");
-        model.addAttribute("title", "Bank - Homepage");
+        model.addAttribute("title", "Trang chủ");
         return "home";
 
     }
@@ -104,7 +104,7 @@ public class HomeController {
 
         model.addAttribute("account", new Account());
         model.addAttribute("page", "Login");
-        model.addAttribute("title", "Login");
+        model.addAttribute("title", "Đăng nhập");
         if (model.getAttribute("msg") == null)
 
             model.addAttribute("msg", "");
@@ -146,7 +146,7 @@ public class HomeController {
             return "redirect:/login";
         }
         model.addAttribute("page", "Member");
-        model.addAttribute("title", "Member Management");
+        model.addAttribute("title", "Đăng kí thành viên mới");
         model.addAttribute("repass", "");
         model.addAttribute("account", new Account());
         return "add_user";
@@ -201,7 +201,7 @@ public class HomeController {
         }
 
         model.addAttribute("page", "Member");
-        model.addAttribute("title", "Thêm User");
+        model.addAttribute("title", "Đăng kí thành viên mới");
         return "add_user";
     }
 
@@ -212,7 +212,7 @@ public class HomeController {
         }
 
         model.addAttribute("page", "Calc");
-        model.addAttribute("title", "Calculate Interest");
+        model.addAttribute("title", "Tính lãi");
         return "calc";
     }
 
@@ -223,11 +223,11 @@ public class HomeController {
         }
         model.addAttribute("page", "Create");
         if (accId == null) {
-            model.addAttribute("title", "Search Account");
+            model.addAttribute("title", "Tìm kiếm tài khoản");
             return "search_account";
         } else {
 
-            model.addAttribute("title", "Open Saving Account");
+            model.addAttribute("title", "Mở sổ tiết kiệm");
             Saving saving = new Saving();
             Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
             saving.setAccount(acc);
@@ -276,7 +276,7 @@ public class HomeController {
         Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
         model.addAttribute("saving", saving);
         model.addAttribute("cusAcc", acc);
-        model.addAttribute("title", "Open Saving Account");
+        model.addAttribute("title", "Mở sổ tiết kiệm");
         return "create";
     }
 
@@ -345,10 +345,10 @@ public class HomeController {
         }
         model.addAttribute("page", "Pullout");
         if (accId == null) {
-            model.addAttribute("title", "Search Account");
+            model.addAttribute("title", "Tìm tài khoản");
             return "search_account_sav";
         } else {
-            model.addAttribute("title", "Saving List");
+            model.addAttribute("title", "Danh sách sổ tiết kiệm");
 
             ArrayList<Saving> savings = savRepo.findAllSaving(Integer.parseInt(accId));
             Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
