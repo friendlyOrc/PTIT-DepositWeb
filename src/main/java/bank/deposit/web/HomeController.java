@@ -131,10 +131,12 @@ public class HomeController {
                 } else {
                     model.addAttribute("msg", "password");
                 }
+                model.addAttribute("title", "Đăng nhập");
                 return "login";
             }
         } catch (Exception e) {
             model.addAttribute("msg", "error");
+            model.addAttribute("title", "Đăng nhập");
             return "login";
         }
 
