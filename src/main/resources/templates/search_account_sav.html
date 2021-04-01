@@ -37,7 +37,7 @@
                                 <input class="form-control" placeholder="Tên chủ tài khoản" type="text" name="name" required>
                             </div>
 
-                            <button class="btn btn-success" onclick="search()">Tìm</button>
+                            <button id="searchBtn" class="btn btn-success" onclick="search()">Tìm</button>
                         </fieldset>
 
                     </div>
@@ -79,10 +79,13 @@
             const regex = new RegExp('[!@#$%^&=*(),.?:{}|<>]');
             let name = document.getElementsByName('name')[0].value;
             let list = document.getElementById('rs');
+            let btn = document.getElementById('searchBtn');
+
+            list.innerHTML = "";
             document.getElementById('warning').style.display = "none";
             document.getElementById('error').style.display = "none";
             document.getElementById('empty').style.display = "none";
-            list.innerHTML = "";
+
             if (name == "") {
                 document.getElementById('warning').style.display = "block";
             }else if(regex.test(name)){
@@ -96,6 +99,7 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
+                        list.innerHTML = "";
                         let accList = data.result;
                         if (accList.length == 0) {
                             document.getElementById('empty').style.display = "block";

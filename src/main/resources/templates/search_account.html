@@ -98,6 +98,7 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
+                        list.innerHTML = "";
                         let accList = data.result;
                         if (accList.length == 0) {
                             document.getElementById('empty').style.display = "block";

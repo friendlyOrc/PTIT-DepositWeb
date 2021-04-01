@@ -86,12 +86,14 @@
 
         function info(id) {
             let info = document.getElementById('info');
+            info.innerHTML = "";
 
             let host = window.location.origin;
             fetch(`${host}/api/pullout?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    info.innerHTML = "";
                     let savList = data.resultSav;
 
                     savList.forEach(sav => {
