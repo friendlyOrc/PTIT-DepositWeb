@@ -21,7 +21,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "account")
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class Account implements Serializable {
     /**
      *
@@ -41,12 +41,12 @@ public class Account implements Serializable {
     @NotNull
     private String idcard;
     @NotNull
+    private String email;
+
     private String username;
-    @NotNull
+
     private String password;
-    @NotNull
-    private int role;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Saving> savings;

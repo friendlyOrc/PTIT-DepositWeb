@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head th:replace="head::head">
+
+<body>
+    <nav th:replace="general::navs">
+
+    </nav>
+	<div class="row">
+        <div th:replace="general::sidebar">
+
+        </div>
+            
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">	
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li class="active">Trang chủ </li>
+                    <li class=""> / Đăng kí thành viên mới </li>
+                </ol>
+            </div>
+            
+            <div class="row page-header">
+                <div class="col-sm-12">
+                    <h1>Đăng kí thành viên mới</h1> 
+                </div>
+            </div>
+            <div class="row add_user">
+                <div class="col-6">
+                    <div class="alert alert-success" >Đăng kí thành công!</div>
+                    <table class="table table-hover">
+                        <tr class="text-center">
+                            <td colspan="2"><h2>Thành viên</h2></td>
+                        </tr>
+                        <tr>
+                            <td>Họ và tên: </td>
+                            <td th:text=${account.name}></td>
+                        </tr>
+                        <tr>
+                            <td>Ngày tháng năm sinh: </td>
+                            <td th:text=${account.dob}></td>
+                        </tr>
+                        <tr>
+                            <td>Giới tính: </td>
+                            <td>
+                                <div th:switch="${account.sex}"> 
+                                    <div th:case="0">Nam</div>
+                                    <div th:case="1">Nữ</div>
+                                    <div th:case="2">Khác</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Địa chỉ: </td>
+                            <td th:text=${account.address}></td>
+                        </tr>
+                        <tr>
+                            <td>Chứng minh thư: </td>
+                            <td th:text=${account.idcard}></td>
+                        </tr>
+                        <tr>
+                            <td>Email: </td>
+                            <td th:text=${account.email}></td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                
+                  
+            </div>
+        </div>	<!--/.main-->
+    </div>	
+	
+    <div th:replace="js::js">
+
+    </div>
+</body>
+
+</html>

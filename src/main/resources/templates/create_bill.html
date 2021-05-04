@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head th:replace="head::head">
+
+<body>
+    <nav th:replace="general::navs">
+
+    </nav>
+	<div class="row">
+        <div th:replace="general::sidebar">
+
+        </div>
+            
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">	
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li class="active">Trang chủ </li>
+                    <li class=""> / Tạo sổ tiết kiệm </li>
+                </ol>
+            </div>
+            
+            <div class="row page-header">
+                <div class="col-sm-12">
+                    <h1>Tạo sổ tiết kiệm</h1> 
+                </div>
+            </div>
+            <div class="row add_user">
+                <div class="col-6">
+                    <div class="alert alert-success" >Tạo sổ tiết kiệm thành công!</div>
+
+                    <h5>Mã nhân viên tạo sổ: <span th:text="${saving.staff.id}"></span></h5>
+                    <h5>Tên nhân viên tạo sổ: <span th:text="${saving.staff.name}"></span></h5>
+
+                    <table class="table table-hover border">
+                        <tr class="text-center">
+                            <td colspan="2"><h2>Sổ tiết kiệm</h2></td>
+                        </tr>
+                        <tr>
+                            <td>Họ và tên: </td>
+                            <td th:text=${saving.account.name}></td>
+                        </tr>
+                        <tr>
+                            <td>Địa chỉ: </td>
+                            <td th:text=${saving.account.address}></td>
+                        </tr>
+                        <tr>
+                            <td>CMT/CCCD: </td>
+                            <td th:text=${saving.account.idcard}></td>
+                        </tr>
+                        <tr>
+                            <td>Kỳ hạn: </td>
+                            <td th:text=${saving.time}></td>
+                        </tr>
+                        <tr>
+                            <td>Phương thức lãi: </td>
+                            <td>
+                                <div th:switch="${saving.type}"> 
+                                    <div th:case="1">Lãnh lãi hàng tháng</div>
+                                    <div th:case="2">Lãnh lãi cuối kỳ</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ngày phát hành: </td>
+                            <td th:text=${saving.createTime}></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Ngày</th>
+                                            <th>Mã Giao dịch</th>
+                                            <th>Số tiền Giao dịch</th>
+                                            <th>Số dư</th>
+                                            <th>Lãi suất</th>
+                                            <th>Kỳ hạn</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="text-center">
+                                            <td th:text=${saving.createTime}></td>
+                                            <td th:text=${saving.id}></td>
+                                            <td><span th:text="${#numbers.formatDecimal(saving.balance, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                                            <td><span th:text="${#numbers.formatDecimal(saving.balance, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                                            <td th:text=${saving.interest}></td>
+                                            <td th:text=${saving.time}></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                
+                  
+            </div>
+        </div>	<!--/.main-->
+    </div>	
+	
+    <div th:replace="js::js">
+
+    </div>
+</body>
+
+</html>

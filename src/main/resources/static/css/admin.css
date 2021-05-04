@@ -393,6 +393,25 @@ a.bg-danger:hover {
     padding: 2vw 0;
 }
 
+.disappear{
+	display: none;
+	/* opacity: 0; */
+}
 
+.appear{
+	/* opacity: 1; */
+	display: block;
+}
 
+.add_user .table{
+	margin-top: 3vw;
+}
 
+#stamp{
+	font-size: 10vw;
+	position: absolute;
+	display: block;
+	opacity: 0.5;
+	transform: rotate(-45deg);
+	margin-top: 10vw;
+}

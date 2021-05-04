@@ -29,44 +29,47 @@
                     </div>
                 </div>
                 <div class="row add_user">
-                    <div class="col-8">
+                    <div class="col-12">
                         <div class="alert alert-danger" style="display: none;" id="warning">Thông tin không hợp lệ!</div>
                         <div class="alert alert-danger" style="display: none;" id="empty">Không có tài khoản có thông tin trùng khớp!</div>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Số dư</th>
-                                    <th>Lãi suất</th>
-                                    <th>Kỳ hạn</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="saving, i: ${savings}">
-                                    <td th:text="${saving.id}" />
-                                    <td th:text="${saving.balance}" />
-                                    <td th:text="${saving.interest}" />
-                                    <td th:text="${saving.time}" />
-                                    <td th:text="${saving.createTime}" />
-                                    <td th:switch="${saving.status}">
-                                        <div th:case="1"><button class="btn btn-success" th:onclick="'info(\'' + ${saving.id} + '\');'">Chưa rút</button></div>
-                                        <div th:case="0"><button class="btn btn-success" disabled>Đã rút</button></div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-
-                    <div class="col-4">
-                        <div id="info">
-
+                        <div class="row">
+                            <div class="col-6">
+                                <div th:switch="${msg}">
+                                    <div th:case="fail">
+                                        <div class="alert alert-danger">Có lỗi xảy ra khi rút sổ!</div>
+                                    <p th:case="*"></p>
+                                </div>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Số dư</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="saving, i: ${savings}">
+                                            <td th:text="${saving.id}" />
+                                            <td><span th:text="${#numbers.formatDecimal(saving.balance, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                                            <td th:text="${saving.createTime}" />
+                                            <td th:switch="${saving.status}">
+                                                <div th:case="1"><button class="btn btn-success" th:onclick="'info(\'' + ${saving.id} + '\');'">Chưa rút</button></div>
+                                                <div th:case="0"><button class="btn btn-success" disabled>Đã rút</button></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+    
+                            </div>
+                            </div>
+                            <div class="col-6">
+                                <div id="info">
+            
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                </div>
+                        
             </div>
             <!--/.main-->
         </div>
@@ -95,23 +98,77 @@
                     console.log(data);
                     info.innerHTML = "";
                     let savList = data.resultSav;
+                    let accList = data.result;
+                    
+                    savList.forEach(saving => {
+                        let savingType = (saving.type == 1) ? "Lãnh lãi cuối tháng" : "Lãnh lãi cuối kỳ";
+                        console.log(saving.account);
 
-                    savList.forEach(sav => {
+                        let bal = (saving.balance).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'VND',
+                        }).substring(1);
+
                         let html = `
-                            <h3>Thông tin sổ tiết kiệm</h3>
-                            <p>
-                                <b>Số dư: </b> <span> ${sav.balance}</span>
-                            </p>
-                            <p>
-                                <b>Lãi: </b> <span> ${sav.interest}</span>
-                            </p>
-                            <p>
-                                <b>Kỳ hạn: </b> <span> ${sav.time}</span>
-                            </p>
-                            <p>
-                                <b>Ngày tạo: </b> <span> ${sav.createTime}</span>
-                            </p>
-                            <button class="btn btn-success" onclick="pullout(${sav.id})">Rút sổ</button>
+                        <table class="table table-hover border">
+                        <tr class="text-center">
+                            <td colspan="2"><h2>Sổ tiết kiệm</h2></td>
+                        </tr>
+                        <tr>
+                            <td>Họ và tên: </td>
+                            <td>${accList[0].name}</td>
+                        </tr>
+                        <tr>
+                            <td>Địa chỉ: </td>
+                            <td>${accList[0].address}</td>
+                        </tr>
+                        <tr>
+                            <td>CMT/CCCD: </td>
+                            <td>${accList[0].idcard}</td>
+                        </tr>
+                        <tr>
+                            <td>Kỳ hạn: </td>
+                            <td>${saving.time}</td>
+                        </tr>
+                        <tr>
+                            <td>Phương thức lãi: </td>
+                            <td>${savingType}</td>
+                        </tr>
+                        <tr>
+                            <td>Ngày phát hành: </td>
+                            <td>${saving.createTime}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Ngày</th>
+                                            <th>Mã Giao dịch</th>
+                                            <th>Số tiền Giao dịch</th>
+                                            <th>Số dư</th>
+                                            <th>Lãi suất</th>
+                                            <th>Kỳ hạn</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="text-center">
+                                            <td>${saving.createTime}</td>
+                                            <td >${saving.id}</td>
+                                            <td><span></span>${bal}</td>
+                                            <td><span></span>${bal}</td>
+                                            <td>${saving.interest}</td>
+                                            <td>${saving.time}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-center"><button class="btn btn-success text-center" onclick="window.location.replace('/pullout/delete?acc=${accList[0].id}&id=${saving.id}')">Rút sổ</button></td>    
+                        </tr>
+                    </table>
+                            
                             `
                         info.insertAdjacentHTML("afterbegin", html);
                     });

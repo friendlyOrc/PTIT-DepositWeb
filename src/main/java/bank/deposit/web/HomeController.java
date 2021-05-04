@@ -2,6 +2,7 @@ package bank.deposit.web;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -167,8 +168,35 @@ public class HomeController {
         return generatedString;
     }
 
+    public boolean validDOB(java.sql.Date date) {
+        java.util.Date date2 = new java.util.Date(date.getTime());
+        java.util.Date date1 = new java.util.Date();
+        return getDiffYears(date2, date1) >= 18;
+    }
+
+    public static int getDiffYears(java.util.Date first, java.util.Date last) {
+        Calendar a = getCalendar(first);
+        Calendar b = getCalendar(last);
+        int diff = b.get(Calendar.YEAR) - a.get(Calendar.YEAR);
+        if (a.get(Calendar.MONTH) > b.get(Calendar.MONTH)
+                || (a.get(Calendar.MONTH) == b.get(Calendar.MONTH) && a.get(Calendar.DATE) > b.get(Calendar.DATE))) {
+            diff--;
+        }
+        return diff;
+    }
+
+    public static Calendar getCalendar(java.util.Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
+    }
+
     @PostMapping("/members")
     public String postMember(Account account, Model model, HttpSession session) {
+        if (session.getAttribute("account") == null) {
+            return "redirect:/login";
+        }
+        boolean rs = false;
         try {
             if (!specialKey(account.getName())) {
                 model.addAttribute("msg", "name");
@@ -176,10 +204,10 @@ public class HomeController {
                 model.addAttribute("msg", "addr");
             } else if (!specialKey(account.getIdcard())) {
                 model.addAttribute("msg", "cccd");
-            } else if (!specialKey(account.getUsername())) {
-                model.addAttribute("msg", "acc");
             } else if (!verifyId(account.getIdcard())) {
                 model.addAttribute("msg", "cccdWord");
+            } else if (!validDOB(account.getDob())) {
+                model.addAttribute("msg", "date");
             } else {
                 ArrayList<Account> accList = accRepo.findAccountByIdcard(account.getIdcard());
                 ArrayList<Account> accList2 = accRepo.findAccountByUsername(account.getUsername());
@@ -188,23 +216,27 @@ public class HomeController {
                 } else if (accList2.size() != 0) {
                     model.addAttribute("msg", "dupacc");
                 } else {
-                    String pass = genPass();
-                    account.setPassword(pass);
-                    model.addAttribute("username", account.getUsername());
-                    model.addAttribute("pass", pass);
-                    model.addAttribute("account", new Account());
+                    // String pass = genPass();
+                    // account.setPassword(pass);
+                    // model.addAttribute("username", account.getUsername());
+                    // model.addAttribute("pass", pass);
+                    model.addAttribute("account", account);
 
                     model.addAttribute("msg", "success");
                     accRepo.save(account);
+                    rs = true;
                 }
             }
         } catch (Exception e) {
             model.addAttribute("msg", "fail");
         }
-
         model.addAttribute("page", "Member");
         model.addAttribute("title", "Đăng kí thành viên mới");
-        return "add_user";
+        if (rs) {
+            return "user";
+        } else {
+            return "add_user";
+        }
     }
 
     @GetMapping("/calc")
@@ -243,31 +275,87 @@ public class HomeController {
     @PostMapping("/create")
     public String createSaving(@RequestParam(required = false, name = "id") String accId, Saving saving, Model model,
             HttpSession session) {
+        if (session.getAttribute("account") == null) {
+            return "redirect:/login";
+        }
+        boolean succ = false;
         if (!specialKey(String.valueOf(saving.getBalance()))) {
             model.addAttribute("msg", "speBal");
-        } else if (!specialKey(String.valueOf(saving.getInterest()))) {
-            model.addAttribute("msg", "speInt");
-        } else if (!specialKey(String.valueOf(saving.getTime()))) {
-            model.addAttribute("msg", "speTime");
         } else {
 
             if (saving.getBalance() <= 1000000) {
                 model.addAttribute("msg", "smInp");
-            } else if (saving.getInterest() <= 0) {
-                model.addAttribute("msg", "smInt");
-            } else if (saving.getTime() <= 0) {
-                model.addAttribute("msg", "smTime");
             } else {
                 long millis = System.currentTimeMillis();
                 Date date = new java.sql.Date(millis);
                 try {
                     Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
+                    Account staff = (Account) session.getAttribute("account");
+                    switch (saving.getTime()) {
+                        case 0:
+                            saving.setInterest((float) 0.1);
+                            break;
+                        case 1:
+                            saving.setInterest((float) 3.1);
+                            break;
+                        case 2:
+                            saving.setInterest((float) 3.1);
+                            break;
+                        case 3:
+                            saving.setInterest((float) 3.4);
+                            break;
+                        case 4:
+                            saving.setInterest((float) 3.4);
+                            break;
+                        case 5:
+                            saving.setInterest((float) 3.4);
+                            break;
+                        case 6:
+                            saving.setInterest((float) 4.0);
+                            break;
+                        case 7:
+                            saving.setInterest((float) 4.0);
+                            break;
+                        case 8:
+                            saving.setInterest((float) 4.0);
+                            break;
+                        case 9:
+                            saving.setInterest((float) 4.0);
+                            break;
+                        case 10:
+                            saving.setInterest((float) 4.0);
+                            break;
+                        case 11:
+                            saving.setInterest((float) 4.0);
+                            break;
+                        case 12:
+                            saving.setInterest((float) 5.6);
+                            break;
+                        case 13:
+                            saving.setInterest((float) 5.6);
+                            break;
+                        case 15:
+                            saving.setInterest((float) 5.6);
+                            break;
+                        case 18:
+                            saving.setInterest((float) 5.6);
+                            break;
+                        case 24:
+                            saving.setInterest((float) 4.0);
+                            break;
+                        default:
+                            saving.setInterest((float) 0.1);
+                    }
+                    saving.setStaff(staff);
                     saving.setAccount(acc);
                     saving.setCreateTime(date);
                     saving.setStatus(1);
                     savRepo.save(saving);
-                    saving = new Saving();
+                    // saving = new Saving();
+                    succ = true;
                 } catch (Exception e) {
+                    e.printStackTrace();
+
                     model.addAttribute("msg", "fail");
 
                 }
@@ -279,7 +367,13 @@ public class HomeController {
         model.addAttribute("saving", saving);
         model.addAttribute("cusAcc", acc);
         model.addAttribute("title", "Mở sổ tiết kiệm");
-        return "create";
+        model.addAttribute("page", "Create");
+
+        if (succ) {
+            return "create_bill";
+        } else {
+            return "create";
+        }
     }
 
     @GetMapping("/search")
@@ -312,39 +406,61 @@ public class HomeController {
             result.setMsg("success");
         }
         ArrayList<Saving> rs = new ArrayList<>();
+        ArrayList<Account> rsAcc = new ArrayList<>();
+        Account acc = accRepo.findOneAccount(sav.getAccount().getId());
+        sav.setAccount(acc);
+        rsAcc.add(acc);
         rs.add(sav);
+        result.setResult(rsAcc);
         result.setResultSav(rs);
 
         return ResponseEntity.ok(result);
 
     }
 
-    @GetMapping("/api/pullout/delete")
-    public ResponseEntity<?> pulloutSaving(@RequestParam(name = "id") int id) {
-
-        AjaxResponseBody result = new AjaxResponseBody();
+    @GetMapping("/pullout/delete")
+    public String pulloutSaving(@RequestParam(name = "id") int id, @RequestParam(name = "acc") int accId,
+            HttpSession session, Model model) {
+        if (session.getAttribute("account") == null) {
+            return "redirect:/login";
+        }
 
         savRepo.pullout(id);
         Saving sav = savRepo.findSaving(id);
         if (sav.getStatus() == 1) {
-            result.setMsg("Error!");
-        } else {
-            result.setMsg("success");
+            return "redirect:/pullout?id=" + accId + "&msg=fail";
         }
-        ArrayList<Saving> rs = new ArrayList<>();
-        rs.add(sav);
-        result.setResultSav(rs);
+        return "redirect:/pullout_bill?acc=" + accId + "&id=" + id;
 
-        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/pullout_bill")
+    public String pulloutBill(@RequestParam(name = "id") int id, @RequestParam(name = "acc") int accId,
+            HttpSession session, Model model) {
+        if (session.getAttribute("account") == null) {
+            return "redirect:/login";
+        }
+
+        Saving saving = savRepo.findSaving(id);
+        Account acc = accRepo.findOneAccount(accId);
+
+        model.addAttribute("saving", saving);
+        model.addAttribute("cusAcc", acc);
+        model.addAttribute("title", "Rút sổ tiết kiệm");
+        model.addAttribute("page", "Pullout");
+
+        return "pullout_bill";
 
     }
 
     @GetMapping("/pullout")
-    public String publlout(@RequestParam(required = false, name = "id") String accId, Model model,
-            HttpSession session) {
+    public String publlout(@RequestParam(required = false, name = "id") String accId,
+            @RequestParam(required = false, name = "msg") String msg, Model model, HttpSession session) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
         }
+        if (msg != null && msg.equalsIgnoreCase("fail"))
+            model.addAttribute("msg", "fail");
         model.addAttribute("page", "Pullout");
         if (accId == null) {
             model.addAttribute("title", "Tìm tài khoản");

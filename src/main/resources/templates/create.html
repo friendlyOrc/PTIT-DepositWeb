@@ -35,7 +35,7 @@
                                 <div class="alert alert-danger">Lỗi kết nối!</div>
                             </div>
                             <div th:case="smInp">
-                                <div class="alert alert-danger">Tiền gửi quá nhỏ!</div>
+                                <div class="alert alert-danger">Tiền gửi tối thiểu là 1.000.000 (một triệu đồng)!</div>
                             </div>
                             <div th:case="smInt">
                                 <div class="alert alert-danger">Lãi suất quá nhỏ!</div>
@@ -43,7 +43,7 @@
                             <div th:case="smTime">
                                 <div class="alert alert-danger">Kỳ hạn quá nhỏ!</div>
                             </div>
-                            <div th:case="speInp">
+                            <div th:case="speBal">
                                 <div class="alert alert-danger">Tiền gửi không được chứa ký tự khác ngoài chữ số!</div>
                             </div>
                             <div th:case="zero">
@@ -61,17 +61,42 @@
                         <fieldset>
                             <form action="" method="POST" th:object="${saving}">
                                 <div class="form-group">
+                                    <label for="type">Phương thức lãnh lãi</label>
+                                    <select class="form-control"  th:field="*{type}" name="type" required>
+                                        <option value="1">Lãnh lãi hàng tháng</option>
+                                        <option value="2">Lãnh lãi cuối kỳ hạn</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="input">Tiền gửi (VND)</label>
                                     <input class="form-control" placeholder="Tiền gửi ban đầu" type="number" th:field="*{balance}" name="input" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="interest">Lãi suất (%)</label>
-                                    <input class="form-control" placeholder="Lãi suất" type="number" th:field="*{interest}" name="interest" required>
+                                    <input class="form-control" placeholder="Lãi suất" type="number" th:field="*{interest}" name="interest" required readonly id="interest">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="time">Kỳ hạn (Tháng)</label>
-                                    <input class="form-control" placeholder="Kỳ hạn gửi" type="number" th:field="*{time}" name="time" required>
+                                    <select class="form-control" placeholder="Kỳ hạn gửi" type="number" th:field="*{time}" name="time" required onchange="setInterest()" id="time">
+                                        <option value="0">Không kỳ hạn</option>
+                                        <option value="1">1 tháng</option>
+                                        <option value="2">2 tháng</option>
+                                        <option value="3">3 tháng</option>
+                                        <option value="4">4 tháng</option>
+                                        <option value="5">5 tháng</option>
+                                        <option value="6">6 tháng</option>
+                                        <option value="7">7 tháng</option>
+                                        <option value="8">8 tháng</option>
+                                        <option value="9">9 tháng</option>
+                                        <option value="10">10 tháng</option>
+                                        <option value="11">11 tháng</option>
+                                        <option value="12">12 tháng</option>
+                                        <option value="13">13 tháng</option>
+                                        <option value="15">15 tháng</option>
+                                        <option value="18">18 tháng</option>
+                                        <option value="24">24 tháng</option>
+                                    </select>
                                 </div>
 
                                 <button class="btn btn-success" type="submit">Tạo</button>
@@ -88,6 +113,123 @@
         <div th:replace="js::js">
 
         </div>
+        <script>
+            let interest = document.getElementById('interest');
+            let time = document.getElementById('time');
+            switch (time.value){
+                    case 0: 
+                        interest.value = 0.1;
+                        break;
+                    case "1": 
+                        interest.value = 3.1;
+                        break;
+                    case "2": 
+                        interest.value = 3.1;
+                        break;
+                    case "3": 
+                        interest.value = 3.4;
+                        break;
+                    case "4": 
+                        interest.value = 3.4;
+                        break;
+                    case "5": 
+                        interest.value = 3.4;
+                        break;
+                    case "6": 
+                        interest.value = 4.0;
+                        break;
+                    case "7": 
+                        interest.value = 4.0;
+                        break;
+                    case "8": 
+                        interest.value = 4.0;
+                        break;
+                    case "9": 
+                        interest.value = 4.0;
+                        break;
+                    case "10": 
+                        interest.value = 4.0;
+                        break;
+                    case "11": 
+                        interest.value = 4.0;
+                        break;
+                    case "12": 
+                        interest.value = 5.6;
+                        break;
+                    case "13": 
+                        interest.value = 5.6;
+                        break;
+                    case "15": 
+                        interest.value = 5.6;
+                        break;
+                    case "18": 
+                        interest.value = 5.6;
+                        break;
+                    case "24": 
+                        interest.value = 5.6;
+                        break;
+                    default:
+                        interest.value = 0.1;
+                }
+            function setInterest(){
+                console.log(time.value);
+                switch (time.value){
+                    case 0: 
+                        interest.value = 0.1;
+                        break;
+                    case "1": 
+                        interest.value = 3.1;
+                        break;
+                    case "2": 
+                        interest.value = 3.1;
+                        break;
+                    case "3": 
+                        interest.value = 3.4;
+                        break;
+                    case "4": 
+                        interest.value = 3.4;
+                        break;
+                    case "5": 
+                        interest.value = 3.4;
+                        break;
+                    case "6": 
+                        interest.value = 4.0;
+                        break;
+                    case "7": 
+                        interest.value = 4.0;
+                        break;
+                    case "8": 
+                        interest.value = 4.0;
+                        break;
+                    case "9": 
+                        interest.value = 4.0;
+                        break;
+                    case "10": 
+                        interest.value = 4.0;
+                        break;
+                    case "11": 
+                        interest.value = 4.0;
+                        break;
+                    case "12": 
+                        interest.value = 5.6;
+                        break;
+                    case "13": 
+                        interest.value = 5.6;
+                        break;
+                    case "15": 
+                        interest.value = 5.6;
+                        break;
+                    case "18": 
+                        interest.value = 5.6;
+                        break;
+                    case "24": 
+                        interest.value = 5.6;
+                        break;
+                    default:
+                        interest.value = 0.1;
+                }
+            }
+        </script>
     </body>
     
 

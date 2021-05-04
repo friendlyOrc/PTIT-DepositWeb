@@ -35,6 +35,8 @@ public class Saving implements Serializable {
     @NotNull
     private int status;
     @NotNull
+    private int type;
+    @NotNull
     private float interest;
     @NotNull
     private int time;
@@ -43,7 +45,12 @@ public class Saving implements Serializable {
     private Date createTime;
 
     @JsonIgnore
-    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "accountid")
     private Account account;
+
+    @JsonIgnore
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "staffid")
+    private Account staff;
 }
