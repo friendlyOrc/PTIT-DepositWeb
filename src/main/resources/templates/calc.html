@@ -3,40 +3,40 @@
 
 <head th:replace="head::head">
 
-<body>
-    <nav th:replace="general::nav">
+    <body>
+        <nav th:replace="general::nav">
 
-    </nav>
-	<div class="row">
-        <div th:replace="general::sidebar">
+        </nav>
+        <div class="row">
+            <div th:replace="general::sidebar">
 
-        </div>
-            
-        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">	
-            <div class="row">
-                <ol class="breadcrumb">
-                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                    <li class="active">Trang chủ </li>
-                    <li class=""> / Tĩnh lãi</li>
-                </ol>
             </div>
-            
-            <div class="row page-header">
-                <div class="col-sm-12">
-                    <h1>Tính lãi</h1> 
+
+            <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                        <li class="active">Trang chủ </li>
+                        <li class=""> / Tĩnh lãi</li>
+                    </ol>
                 </div>
-            </div>
-            <div class="row add_user">
-                <div class="col-6">
-                    <!-- <div class="alert alert-danger" style="display: none;" id="smInp">Thông tin không hợp lệ!</div>
+
+                <div class="row page-header">
+                    <div class="col-sm-12">
+                        <h1>Tính lãi</h1>
+                    </div>
+                </div>
+                <div class="row add_user">
+                    <div class="col-6">
+                        <!-- <div class="alert alert-danger" style="display: none;" id="smInp">Thông tin không hợp lệ!</div>
                     <div class="alert alert-danger" style="display: none;" id="smTnt">Thông tin không hợp lệ!</div>
                     <div class="alert alert-danger" style="display: none;" id="smTime">Thông tin không hợp lệ!</div> -->
-                    <div class="alert alert-danger" style="display: none;" id="speInp">Tiền gửi không được chứa ký tự khác ngoài chữ số!</div>
-                    <div class="alert alert-danger" style="display: none;" id="speInt">Lãi suất không được chứa ký tự khác ngoài chữ số!</div>
-                    <div class="alert alert-danger" style="display: none;" id="speTime">Kỳ hạn không được chứa ký tự khác ngoài chữ số!</div>
-                    <div class="alert alert-danger" style="display: none;" id="empInp">Tiền gửi không được để trống!</div>
-                    <div class="alert alert-danger" style="display: none;" id="empInt">Lãi suất không được để trống!</div>
-                    <div class="alert alert-danger" style="display: none;" id="empTime">Kỳ hạn không được để trống!</div>
+                        <div class="alert alert-danger" style="display: none;" id="speInp">Tiền gửi không được chứa ký tự khác ngoài chữ số!</div>
+                        <!-- <div class="alert alert-danger" style="display: none;" id="speInt">Lãi suất không được chứa ký tự khác ngoài chữ số!</div>
+                        <div class="alert alert-danger" style="display: none;" id="speTime">Kỳ hạn không được chứa ký tự khác ngoài chữ số!</div> -->
+                        <div class="alert alert-danger" style="display: none;" id="empInp">Tiền gửi không được để trống!</div>
+                        <!-- <div class="alert alert-danger" style="display: none;" id="empInt">Lãi suất không được để trống!</div>
+                        <div class="alert alert-danger" style="display: none;" id="empTime">Kỳ hạn không được để trống!</div> -->
                         <fieldset>
                             <div class="form-group">
                                 <label for="type">Phương thức tính lãi tiết kiệm</label> <br>
@@ -47,109 +47,240 @@
                             </div>
                             <div class="form-group">
                                 <label for="input">Tiền gửi (VND)</label>
-                                <input class="form-control" placeholder="Tiền gửi ban đầu"  type="number" name="input" required>
+                                <input class="form-control" placeholder="Tiền gửi ban đầu" type="text" name="input" required autofocus id="moneyInput">
                             </div>
                             <div class="form-group">
                                 <label for="interest">Lãi suất (%)</label>
-                                <input class="form-control" placeholder="Lãi suất" type="number" name="interest" required>
+                                <input class="form-control" placeholder="0.1" type="number" name="interest" required readonly id="interestInput">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="time">Kỳ hạn (Tháng)</label>
-                                <input class="form-control" placeholder="Kỳ hạn gửi"  type="number" name="time" required> 
+                                <select class="form-control" placeholder="Kỳ hạn gửi" type="number" name="time" required onchange="setInterest()" id="timeInput">
+                                    <option value="1">1 tháng</option>
+                                    <option value="2">2 tháng</option>
+                                    <option value="3">3 tháng</option>
+                                    <option value="4">4 tháng</option>
+                                    <option value="5">5 tháng</option>
+                                    <option value="6">6 tháng</option>
+                                    <option value="7">7 tháng</option>
+                                    <option value="8">8 tháng</option>
+                                    <option value="9">9 tháng</option>
+                                    <option value="10">10 tháng</option>
+                                    <option value="11">11 tháng</option>
+                                    <option value="12">12 tháng</option>
+                                    <option value="13">13 tháng</option>
+                                    <option value="15">15 tháng</option>
+                                    <option value="18">18 tháng</option>
+                                    <option value="24">24 tháng</option>
+                                </select>
                             </div>
-                            
-                            <button  class="btn btn-success" onclick="calc()">Tính</button>
+
+                            <button class="btn btn-success" onclick="calc()">Tính</button>
                         </fieldset>
-                   
+
+                    </div>
+
+                    <div class="col-6">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Tổng số tiền</th>
+                                    <th>Tiền lãi</th>
+                                    <th>Tiền lãi định kỳ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="sum"></td>
+                                    <td id="interest__sum"></td>
+                                    <td id="interest"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
-                
-                <div class="col-6">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Tổng số tiền</th>
-                                <th>Tiền lãi</th>
-                                <th>Tiền lãi định kỳ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="sum"></td>
-                                <td id="interest__sum"></td>
-                                <td id="interest"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                  
             </div>
-        </div>	<!--/.main-->
-    </div>	
-	
-    <div th:replace="js::js">
+            <!--/.main-->
+        </div>
 
-    </div>
-</body>
-<script>
-    function isInt(n){
-        return Number(n) === n && n % 1 === 0;
-    }
+        <div th:replace="js::js">
 
-    function isFloat(n){
-        return Number(n) === n && n % 1 !== 0;
-    }
-
-
-    function calc(){
-        const regex = new RegExp('[!@#$%^&*()-+?:{}|<>]');
-        let sum = 0;
-        let int__sum = 0;
-        let inte = 0;
-        let money = parseFloat(document.getElementsByName('input')[0].value);
-        let interest = parseFloat(document.getElementsByName('interest')[0].value);
-        let time = parseFloat(document.getElementsByName('time')[0].value);
-        
-        document.getElementById('speInp').style.display = "none";
-        document.getElementById('speInt').style.display = "none";
-        document.getElementById('speTime').style.display = "none";
-        document.getElementById('empInp').style.display = "none";
-        document.getElementById('empInt').style.display = "none";
-        document.getElementById('empTime').style.display = "none";
-
-        if((!isFloat(money) && !isInt(money)) || regex.test(document.getElementsByName('input')[0].value)){
-            if(document.getElementsByName('input')[0].value == ""){
-                document.getElementById('empInp').style.display = "block";
-            }else{
-                document.getElementById('speInp').style.display = "block";
-            }
-        } else if((!isFloat(interest) && !isInt(interest)) || regex.test(document.getElementsByName('interest')[0].value)){
-            if(document.getElementsByName('interest')[0].value == ""){
-                document.getElementById('empInt').style.display = "block";
-            }else{
-                document.getElementById('speInt').style.display = "block";
-            }
-        }else if(!isFloat(time) && !isInt(time) || regex.test(document.getElementsByName('time')[0].value)){
-            if(document.getElementsByName('time')[0].value == ""){
-                document.getElementById('empTime').style.display = "block";
-            }else{
-                document.getElementById('speTime').style.display = "block";
-            }
-        }else{
-            let type = document.getElementsByName('type')[0].value;
-            if(type == 1){
-                int__sum = money*(interest/100)*(time/12);
-                sum = money + int__sum;
-
-            }else{
-                int__sum = money*(interest/100)*(time/12);
-                sum = money + int__sum;
-                inte = int__sum/time;
-            }
-            document.getElementById('sum').innerHTML = Math.round(sum * 100) / 100;
-            document.getElementById('interest__sum').innerHTML =  Math.round(int__sum * 100) / 100;
-            document.getElementById('interest').innerHTML =  Math.round(inte * 100) / 100;
+        </div>
+    </body>
+    <script>
+        let interest = document.getElementById('interestInput');
+        let time = document.getElementById('timeInput');
+        switch (time.value) {
+            case 0:
+                interest.value = 0.1;
+                break;
+            case "1":
+                interest.value = 3.1;
+                break;
+            case "2":
+                interest.value = 3.1;
+                break;
+            case "3":
+                interest.value = 3.4;
+                break;
+            case "4":
+                interest.value = 3.4;
+                break;
+            case "5":
+                interest.value = 3.4;
+                break;
+            case "6":
+                interest.value = 4.0;
+                break;
+            case "7":
+                interest.value = 4.0;
+                break;
+            case "8":
+                interest.value = 4.0;
+                break;
+            case "9":
+                interest.value = 4.0;
+                break;
+            case "10":
+                interest.value = 4.0;
+                break;
+            case "11":
+                interest.value = 4.0;
+                break;
+            case "12":
+                interest.value = 5.6;
+                break;
+            case "13":
+                interest.value = 5.6;
+                break;
+            case "15":
+                interest.value = 5.6;
+                break;
+            case "18":
+                interest.value = 5.6;
+                break;
+            case "24":
+                interest.value = 5.6;
+                break;
+            default:
+                interest.value = 0.1;
         }
-    }
-</script>
+
+        function setInterest() {
+            console.log(time.value);
+            switch (time.value) {
+                case 0:
+                    interest.value = 0.1;
+                    break;
+                case "1":
+                    interest.value = 3.1;
+                    break;
+                case "2":
+                    interest.value = 3.1;
+                    break;
+                case "3":
+                    interest.value = 3.4;
+                    break;
+                case "4":
+                    interest.value = 3.4;
+                    break;
+                case "5":
+                    interest.value = 3.4;
+                    break;
+                case "6":
+                    interest.value = 4.0;
+                    break;
+                case "7":
+                    interest.value = 4.0;
+                    break;
+                case "8":
+                    interest.value = 4.0;
+                    break;
+                case "9":
+                    interest.value = 4.0;
+                    break;
+                case "10":
+                    interest.value = 4.0;
+                    break;
+                case "11":
+                    interest.value = 4.0;
+                    break;
+                case "12":
+                    interest.value = 5.6;
+                    break;
+                case "13":
+                    interest.value = 5.6;
+                    break;
+                case "15":
+                    interest.value = 5.6;
+                    break;
+                case "18":
+                    interest.value = 5.6;
+                    break;
+                case "24":
+                    interest.value = 5.6;
+                    break;
+                default:
+                    interest.value = 0.1;
+            }
+        }
+
+        function isInt(n) {
+            return Number(n) === n && n % 1 === 0;
+        }
+
+        function isFloat(n) {
+            return Number(n) === n && n % 1 !== 0;
+        }
+
+        function toCurrency(str) {
+            return (str).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'VND',
+            }).substring(1);
+        }
+
+        function calc() {
+            const regex = new RegExp('^[0-9]*$');
+            let sum = 0;
+            let int__sum = 0;
+            let inte = 0;
+            let money = parseFloat(document.getElementsByName('input')[0].value);
+            let interest = parseFloat(document.getElementsByName('interest')[0].value);
+            let time = parseFloat(document.getElementsByName('time')[0].value);
+
+            document.getElementById('speInp').style.display = "none";
+            // document.getElementById('speInt').style.display = "none";
+            // document.getElementById('speTime').style.display = "none";
+            document.getElementById('empInp').style.display = "none";
+            // document.getElementById('empInt').style.display = "none";
+            // document.getElementById('empTime').style.display = "none";
+
+            if ((!isFloat(money) && !isInt(money)) || !regex.test(document.getElementsByName('input')[0].value)) {
+                if (document.getElementsByName('input')[0].value == "") {
+                    document.getElementById('empInp').style.display = "block";
+                } else {
+                    document.getElementById('speInp').style.display = "block";
+                }
+                document.getElementById('moneyInput').focus();
+            } else {
+                let type = document.getElementsByName('type')[0].value;
+                if (type == 1) {
+                    int__sum = money * (interest / 100) * (time / 12);
+                    sum = money + int__sum;
+
+                } else {
+                    int__sum = money * (interest / 100) * (time / 12);
+                    sum = money + int__sum;
+                    inte = int__sum / time;
+                }
+                document.getElementById('sum').innerHTML = toCurrency(Math.round(sum / 1000) * 1000);
+                document.getElementById('interest__sum').innerHTML = toCurrency(Math.round(int__sum / 1000) * 1000);
+                document.getElementById('interest').innerHTML = toCurrency(Math.round(inte / 1000) * 1000);
+            }
+        }
+    </script>
+
 </html>
