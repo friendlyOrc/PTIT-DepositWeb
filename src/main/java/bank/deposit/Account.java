@@ -53,4 +53,6 @@ public class Account implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Saving> savings;
+
+   
 }

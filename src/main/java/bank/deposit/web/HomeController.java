@@ -114,7 +114,8 @@ public class HomeController {
 
     @GetMapping("/logout")
     public String logout(Model model, HttpSession session) {
-        session.removeAttribute("account");
+        // session.removeAttribute("account");
+        session.invalidate();
         return "redirect:/login";
     }
 
