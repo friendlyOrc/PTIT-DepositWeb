@@ -56,6 +56,14 @@ public class HomeController {
         return false;
     }
 
+    public boolean containsNumber(String s) {
+        for (int i = 0; i <= 9; i++) {
+            if (s.indexOf(String.valueOf(i)) != -1)
+                return true;
+        }
+        return false;
+    }
+
     public boolean specialKey(String s) {
         if (s.indexOf("<") != -1)
             return false;
@@ -199,9 +207,11 @@ public class HomeController {
         }
         boolean rs = false;
         try {
-            if (!specialKey(account.getName())) {
+            if (!specialKey(account.getName()) || containsNumber(account.getName())) {
                 model.addAttribute("msg", "name");
-            } else if (!specialKey(account.getAddress())) {
+            } else if (account.getName().length() > 25){
+                model.addAttribute("msg", "longName");
+            }else if (!specialKey(account.getAddress())) {
                 model.addAttribute("msg", "addr");
             } else if (!specialKey(account.getIdcard())) {
                 model.addAttribute("msg", "cccd");

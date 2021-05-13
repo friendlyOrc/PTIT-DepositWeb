@@ -34,7 +34,7 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="name">Tên chủ tài khoản:</label>
-                                <input class="form-control" placeholder="Tên chủ tài khoản" type="text" name="name" required autofocus>
+                                <input class="form-control" placeholder="Tên chủ tài khoản" type="text" name="name" id="search" required autofocus>
                             </div>
 
                             <button class="btn btn-success" onclick="search()">Tìm</button>
@@ -90,8 +90,10 @@
             list2.innerHTML = "";
             if (name == "") {
                 document.getElementById('warning').style.display = "block";
+                document.getElementById('search').focus();
             }else if(regex.test(name)){
                 document.getElementById('error').style.display = "block";
+                document.getElementById('search').focus();
             } else {
                 document.getElementById('warning').style.display = "none";
                 document.getElementById('error').style.display = "none";
@@ -106,6 +108,7 @@
                         let accList = data.result;
                         if (accList.length == 0) {
                             document.getElementById('empty').style.display = "block";
+                            document.getElementById('search').focus();
                         } else {
                             document.getElementById('empty').style.display = "none";
                             accList.forEach(acc => {

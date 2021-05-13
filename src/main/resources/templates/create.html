@@ -69,7 +69,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="input">Tiền gửi (VND)</label>
-                                    <input class="form-control" placeholder="Tiền gửi ban đầu" type="number" th:field="*{balance}" name="input" required>
+                                    <div th:switch="${msg}"> 
+                                        <div th:case="smInp">
+                                            <input class="form-control" placeholder="Tiền gửi ban đầu" type="number" th:field="*{balance}" name="input" required autofocus>
+                                        </div>
+                                        <div th:case="speBal">
+                                            <input class="form-control" placeholder="Tiền gửi ban đầu" type="number" th:field="*{balance}" name="input" required autofocus>
+                                        </div>
+                                        <div th:case="*">
+                                            <input class="form-control" placeholder="Tiền gửi ban đầu" type="number" th:field="*{balance}" name="input" required>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="interest">Lãi suất (%)</label>
