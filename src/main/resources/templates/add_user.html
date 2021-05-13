@@ -38,6 +38,7 @@
                         <div th:case="dup"><div class="alert alert-danger" >Số chứng minh thư đã đăng kí trước đó!</div></div>
                         <div th:case="dupacc"><div class="alert alert-danger" >Tên người dùng đã được sử dụng!</div></div>
                         <div th:case="fail"><div class="alert alert-danger" >Lỗi kết nối!</div></div>
+                        <div th:case="email"><div class="alert alert-danger" >Email không hợp lệ!</div></div>
                         <div th:case="date"><div class="alert alert-danger" >Người đăng ký phải đủ 18 tuổi!</div>
                         <p th:case="*"></p> 
                     </div>

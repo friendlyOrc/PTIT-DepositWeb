@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -36,6 +38,14 @@ public class HomeController {
         this.env = env;
         this.accRepo = accRepo;
         this.savRepo = savRepo;
+    }
+
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+            Pattern.CASE_INSENSITIVE);
+
+    public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
     }
 
     public boolean isAllNumber(String s) {
@@ -209,10 +219,12 @@ public class HomeController {
         try {
             if (!specialKey(account.getName()) || containsNumber(account.getName())) {
                 model.addAttribute("msg", "name");
-            } else if (account.getName().length() > 25){
+            } else if (account.getName().length() > 25) {
                 model.addAttribute("msg", "longName");
-            }else if (!specialKey(account.getAddress())) {
+            } else if (!specialKey(account.getAddress())) {
                 model.addAttribute("msg", "addr");
+            } else if (!validateEmail(account.getEmail())) {
+                model.addAttribute("msg", "email");
             } else if (!specialKey(account.getIdcard())) {
                 model.addAttribute("msg", "cccd");
             } else if (!verifyId(account.getIdcard())) {
