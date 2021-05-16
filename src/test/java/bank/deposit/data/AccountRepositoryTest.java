@@ -1,4 +1,4 @@
-package bank.deposit;
+package bank.deposit.data;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -14,10 +14,13 @@ import org.springframework.http.ResponseEntity;
 
 import static io.restassured.RestAssured.get;
 
+import bank.deposit.Account;
+import bank.deposit.AjaxResponseBody;
 import bank.deposit.data.AccountRepository;
 import bank.deposit.data.SavingRepository;
 import bank.deposit.web.HomeController;
 
+// Test cases for AccountDAO
 @SpringBootTest
 @Transactional
 class AccountRepositoryTest {
@@ -32,6 +35,7 @@ class AccountRepositoryTest {
 		this.home = home;
 	}
 
+	// Login valid
 	@Test
 	void loginValid() {
 		String username = "kienpt";
@@ -44,6 +48,7 @@ class AccountRepositoryTest {
 		}
 	}
 
+	// Login wrong username
 	@Test
 	void loginInvalidUN() {
 		String username = "thisisawrongusername";
@@ -53,6 +58,7 @@ class AccountRepositoryTest {
 		assertEquals(0, accList.size());
 	}
 
+	// Login wrong password
 	@Test
 	void loginInvalidPW() {
 		String username = "kienpt";
@@ -62,6 +68,7 @@ class AccountRepositoryTest {
 		assertEquals(0, accList.size());
 	}
 
+	// Find account by idcard - valid
 	@Test
 	void findAccountByIdcardValid() {
 		String card = "0123456789";
@@ -72,6 +79,7 @@ class AccountRepositoryTest {
 		}
 	}
 
+	// Find account by idcard - no result - numbertype
 	@Test
 	void findAccountByIdcardInvalid1() {
 		String card = "0";
@@ -80,6 +88,7 @@ class AccountRepositoryTest {
 		assertEquals(0, accList.size());
 	}
 
+	// Find account by idcard - no result - string
 	@Test
 	void findAccountByIdcardInvalid2() {
 		String card = "abc";
@@ -88,8 +97,9 @@ class AccountRepositoryTest {
 		assertEquals(0, accList.size());
 	}
 
-	@Test 
-	void findAccountByUsernameValid(){
+	// Find account by username - valid
+	@Test
+	void findAccountByUsernameValid() {
 		String username = "kienpt";
 
 		ArrayList<Account> accList = accRepo.findAccountByUsername(username);
@@ -98,26 +108,27 @@ class AccountRepositoryTest {
 		}
 	}
 
-	
-	@Test 
-	void findAccountByUsernameInvalid1(){
+	// Find account by username - no result
+	@Test
+	void findAccountByUsernameInvalid1() {
 		String username = "kienptabc";
 
 		ArrayList<Account> accList = accRepo.findAccountByUsername(username);
 		assertEquals(0, accList.size());
 	}
 
-	
-	@Test 
-	void findAccountByUsernameInvalid2(){
+	// Find account by username - no result - special character
+	@Test
+	void findAccountByUsernameInvalid2() {
 		String username = "<>@#$@#$";
 
 		ArrayList<Account> accList = accRepo.findAccountByUsername(username);
 		assertEquals(0, accList.size());
 	}
 
-	@Test 
-	void findOneAccountValid(){
+	// Find account by id - valid
+	@Test
+	void findOneAccountValid() {
 		int id = 1;
 
 		Account acc = accRepo.findOneAccount(id);
@@ -125,9 +136,9 @@ class AccountRepositoryTest {
 
 	}
 
-	
-	@Test 
-	void findOneAccountInvalid1(){
+	// Find account by id - no result
+	@Test
+	void findOneAccountInvalid1() {
 		int id = 123123123;
 
 		Account acc = accRepo.findOneAccount(id);
@@ -135,9 +146,9 @@ class AccountRepositoryTest {
 
 	}
 
-	
-	@Test 
-	void findOneAccountInvalid2(){
+	// Find account by id - no result - negative number
+	@Test
+	void findOneAccountInvalid2() {
 		int id = -1;
 
 		Account acc = accRepo.findOneAccount(id);
@@ -145,53 +156,41 @@ class AccountRepositoryTest {
 
 	}
 
+	// Find account by name - valid
 	@Test
-	void findByNameValid(){
+	void findByNameValid() {
 		String name = "Kiên";
 
 		ArrayList<Account> accList = accRepo.findByUserName(name);
 		for (int i = 0; i < accList.size(); i++) {
-			
+
 			assertEquals(true, accList.get(i).getName().contains(name), accList.get(i).getName());
 		}
 
 	}
 
+	// Find account by name - no result
 	@Test
-	void findByNameInvalid1(){
+	void findByNameInvalid1() {
 		String name = "Tên không có";
 
 		ArrayList<Account> accList = accRepo.findByUserName(name);
 		assertEquals(0, accList.size());
 
 	}
-	
+
+	// Find account by name - no result - number
 	@Test
-	void findByNameInvalid2(){
+	void findByNameInvalid2() {
 		String name = "00000000000";
 
 		ArrayList<Account> accList = accRepo.findByUserName(name);
 		assertEquals(0, accList.size());
 	}
 
+	// Add a client with valid input
 	@Test
-	void loadMain(){
-		get("http://localhost:8082/")
-				.then()
-				.assertThat()
-				.statusCode(200);
-	}
-
-	@Test
-	void searchClient(){
-		ResponseEntity<?> rs = home.getSearchResultViaAjax("Kiên");
-		AjaxResponseBody res = (AjaxResponseBody) rs.getBody(); 
-
-		assertEquals(2, res.getResult().size());
-	}
-
-	@Test
-	void addClientValid(){
+	void addClientValid() {
 		Account acc = new Account();
 		acc.setAddress("abc");
 		acc.setDob(new java.sql.Date(0));
@@ -204,12 +203,9 @@ class AccountRepositoryTest {
 		accRepo.save(acc);
 
 		Account accRs = accRepo.findOneAccount(acc.getId());
-		assertAll("Account",
-					() -> assertNotEquals(null, accRs),
-                    () -> assertTrue(accRs.getAddress().equalsIgnoreCase("abc")),
-                    () -> assertEquals(accRs.getDob(), new java.sql.Date(0))
-                );
-
+		assertAll("Account", () -> assertNotEquals(null, accRs),
+				() -> assertTrue(accRs.getAddress().equalsIgnoreCase("abc")),
+				() -> assertEquals(accRs.getDob(), new java.sql.Date(0)));
 	}
 
 }
