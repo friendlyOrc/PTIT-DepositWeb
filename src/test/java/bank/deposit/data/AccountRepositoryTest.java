@@ -1,8 +1,6 @@
 package bank.deposit.data;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.transaction.Transactional;
 
@@ -10,29 +8,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-
-import static io.restassured.RestAssured.get;
 
 import bank.deposit.Account;
-import bank.deposit.AjaxResponseBody;
-import bank.deposit.data.AccountRepository;
-import bank.deposit.data.SavingRepository;
-import bank.deposit.web.HomeController;
 
 // Test cases for AccountDAO
 @SpringBootTest
 @Transactional
 class AccountRepositoryTest {
 	private final AccountRepository accRepo;
-	private final SavingRepository savRepo;
-	private final HomeController home;
 
 	@Autowired
-	AccountRepositoryTest(AccountRepository accRepo, SavingRepository savRepo, HomeController home) {
+	AccountRepositoryTest(AccountRepository accRepo) {
 		this.accRepo = accRepo;
-		this.savRepo = savRepo;
-		this.home = home;
 	}
 
 	// Login valid
@@ -205,7 +192,10 @@ class AccountRepositoryTest {
 		Account accRs = accRepo.findOneAccount(acc.getId());
 		assertAll("Account", () -> assertNotEquals(null, accRs),
 				() -> assertTrue(accRs.getAddress().equalsIgnoreCase("abc")),
-				() -> assertEquals(accRs.getDob(), new java.sql.Date(0)));
+				() -> assertEquals(new java.sql.Date(0), accRs.getDob()),
+				() -> assertTrue(accRs.getEmail().equalsIgnoreCase("Email@gmail.com")),
+				() -> assertEquals(1, accRs.getSex()), () -> assertEquals("0123456789", accRs.getIdcard()),
+				() -> assertEquals("Kien Milo", accRs.getName()));
 	}
 
 }
