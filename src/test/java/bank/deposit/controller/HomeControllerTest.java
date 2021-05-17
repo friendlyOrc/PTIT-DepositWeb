@@ -119,7 +119,22 @@ public class HomeControllerTest {
     	String s = "123123$%#";
     	assertEquals(home.isAllNumber(s), false);
     }
-    
+    @Test
+    /**
+     * Input is null
+     */
+    void isAllNumberInputWrong3() {
+    	String s = "";
+    	assertEquals(home.isAllNumber(s), true);
+    }
+    @Test
+    /**
+     * Input have negative number
+     */
+    void isAllNumberInputWrong4() {
+    	String s = "-1231231231";
+    	assertEquals(home.isAllNumber(s), false);
+    }
     @Test
     /**
      * Input is all digit
@@ -149,12 +164,64 @@ public class HomeControllerTest {
     
     @Test
     /**
+     * Input is null
+     */
+    void verifyIdInputWrong2() {
+    	String s = "";
+    	assertEquals(home.verifyId(s), false);
+    }
+    
+    @Test
+    /**
+     * Input is negative number
+     */
+    void verifyIdInputNegativeNumber() {
+    	String s = "-123123123";
+    	assertEquals(home.verifyId(s), false);
+    }
+    
+    @Test
+    /**
      * Input is all digit and size = 10
      */
     void verifyIdInputRight() {
     	String s = "1231231234";
     	assertEquals(home.verifyId(s), true);
     }
+    @Test
+    /**
+     * Input is all digit and size > 10
+     */
+    void verifyIdInputWrongSize() {
+    	String s = "123123123412312";
+    	assertEquals(home.verifyId(s), false);
+    }
+    @Test
+    /**
+     * Input have some speacial character
+     */
+    void speacialKeyExistSpeacial() {
+    	String s = "123123###";
+    	assertEquals(home.specialKey(s), false);
+    }
+    
+    @Test
+    /**
+     * Input don't have speacial character
+     */
+    void speacialKeyWithNoSpeacial() {
+    	String s = "123123";
+    	assertEquals(home.specialKey(s), true);
+    }
+    @Test
+    /**
+     * Input is null
+     */
+    void speacialKeyWithNullInput() {
+    	String s = "";
+    	assertEquals(home.specialKey(s), true);
+    }
+    
     @Test
     /**
      * Input year is 2010 which make different year lower than 18
@@ -175,6 +242,18 @@ public class HomeControllerTest {
     	Date date = new Date(cal.getTime().getTime());
     	assertEquals(home.validDOB(date), true);
     }
+    
+    @Test
+    /**
+     * Input year is 2023 which make different year is a negative number
+     */
+    void validDOBInvalid() {
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(Calendar.YEAR, 2023);
+    	Date date = new Date(cal.getTime().getTime());
+    	assertEquals(home.validDOB(date), false);
+    }
+    
     @Test
     /**
      * Input year is 1999 which make different year higher than 18
