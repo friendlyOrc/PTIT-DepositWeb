@@ -6,25 +6,34 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
 
 import bank.deposit.Account;
 import bank.deposit.data.AccountRepository;
 import bank.deposit.web.HomeController;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+import java.nio.charset.Charset;
 import java.util.HashMap;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class HomeControllerTest {
+@Transactional
+public class CalcControllerTest {
     private final HomeController home;
     private final AccountRepository accRepo;
     private MockMvc mockMvc;
-    private static Account acc;
+    private Account acc;
+
+    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
     @Autowired
-    public HomeControllerTest(HomeController home, AccountRepository accRepo, MockMvc mockMvc) {
+    public CalcControllerTest(HomeController home, AccountRepository accRepo, MockMvc mockMvc) {
         this.home = home;
         this.accRepo = accRepo;
         this.mockMvc = mockMvc;
@@ -37,27 +46,31 @@ public class HomeControllerTest {
         assertNotNull(home);
     }
 
-    // Load main page with no account in session
+    // Load calc page with no account in session
     @Test
-    void loadMainPageWithNoAccount() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/")).andReturn();
-        String location = mvcResult.getResponse().getHeader("Location");
-        int status = mvcResult.getResponse().getStatus();
-
-        assertAll("Verify login page loads", () -> assertEquals(302, status), () -> assertEquals("/login", location));
-
-    }
-
-    // Load main page with account in session
-    @Test
-    void loadMainPageWithAccount() throws Exception {
-        HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-        sessionattr.put("account", acc);
-
-        MvcResult mvcResult = mockMvc.perform(get("/").sessionAttrs(sessionattr)).andReturn();
+    void loadCalcPageWithNoAccount() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get("/calc")).andReturn();
         String view = mvcResult.getModelAndView().getViewName();
         int status = mvcResult.getResponse().getStatus();
 
-        assertAll("Verify main page loads", () -> assertEquals(200, status), () -> assertEquals("home", view));
+        assertAll("Verify login page loads", () -> assertEquals(302, status),
+                () -> assertEquals("redirect:/login", view));
+
     }
+
+    // Load calc page with account in session
+    @Test
+    void loadCalcPageWithAccount() throws Exception {
+        HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+        sessionattr.put("account", acc);
+
+        MvcResult mvcResult = mockMvc.perform(get("/calc").sessionAttrs(sessionattr)).andReturn();
+        String view = mvcResult.getModelAndView().getViewName();
+        int status = mvcResult.getResponse().getStatus();
+
+        assertAll("Verify search accout page loads", () -> assertEquals(200, status),
+                () -> assertEquals("calc", view));
+
+    }
+
 }

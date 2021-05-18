@@ -2,10 +2,8 @@ package bank.deposit;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.*;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,7 +13,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
@@ -48,12 +45,18 @@ public class Saving implements Serializable {
     private Date createTime;
 
     @JsonIgnore
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "accountid")
     private Account account;
 
     @JsonIgnore
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "staffid")
     private Account staff;
+
+    @Override
+    public String toString() {
+        return "null";
+
+    }
 }

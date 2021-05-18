@@ -3,13 +3,10 @@ package bank.deposit.web;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -174,19 +171,6 @@ public class HomeController {
         return "add_user";
     }
 
-    public String genPass() {
-        int leftLimit = 97; // letter 'a'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
-        Random random = new Random();
-
-        String generatedString = random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-
-        System.out.println(generatedString);
-        return generatedString;
-    }
-
     public boolean validDOB(java.sql.Date date) {
         java.util.Date date2 = new java.util.Date(date.getTime());
         java.util.Date date1 = new java.util.Date();
@@ -274,7 +258,8 @@ public class HomeController {
     }
 
     @GetMapping("/create")
-    public String create(@RequestParam(required = false, name = "id") String accId, Model model, HttpSession session) {
+    public String create(@RequestParam(required = false, name = "accid") String accId, Model model,
+            HttpSession session) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
         }
@@ -296,7 +281,7 @@ public class HomeController {
     }
 
     @PostMapping("/create")
-    public String createSaving(@RequestParam(required = false, name = "id") String accId, Saving saving, Model model,
+    public String createSaving(@RequestParam(required = false, name = "accid") String accId, Saving saving, Model model,
             HttpSession session) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
@@ -314,6 +299,7 @@ public class HomeController {
                 try {
                     Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
                     Account staff = (Account) session.getAttribute("account");
+                    int size = savRepo.findAllSaving(acc.getId()).size();
                     switch (saving.getTime()) {
                         case 0:
                             saving.setInterest((float) 0.1);
@@ -373,6 +359,7 @@ public class HomeController {
                     saving.setAccount(acc);
                     saving.setCreateTime(date);
                     saving.setStatus(1);
+                    saving.setId(size + 1);
                     savRepo.save(saving);
                     // saving = new Saving();
                     succ = true;
@@ -405,7 +392,7 @@ public class HomeController {
 
         AjaxResponseBody result = new AjaxResponseBody();
 
-        ArrayList<Account> users = (ArrayList<Account>) accRepo.findByUserName(name);
+        ArrayList<Account> users = (ArrayList<Account>) accRepo.findByUserName("%" + name + "%");
         if (users.isEmpty()) {
             result.setMsg("no user found!");
         } else {
@@ -417,23 +404,27 @@ public class HomeController {
 
     }
 
+    // Get a saving API
     @GetMapping("/api/pullout")
     public ResponseEntity<?> getSearchResultViaAjaxSaving(@RequestParam(name = "id") int id) {
 
         AjaxResponseBody result = new AjaxResponseBody();
 
         Saving sav = savRepo.findSaving(id);
+
+        ArrayList<Saving> rs = new ArrayList<>();
+        ArrayList<Account> rsAcc = new ArrayList<>();
+        Account acc = new Account();
+
         if (sav == null) {
             result.setMsg("no user found!");
         } else {
             result.setMsg("success");
+            acc = accRepo.findOneAccount(sav.getAccount().getId());
+            sav.setAccount(acc);
+            rs.add(sav);
         }
-        ArrayList<Saving> rs = new ArrayList<>();
-        ArrayList<Account> rsAcc = new ArrayList<>();
-        Account acc = accRepo.findOneAccount(sav.getAccount().getId());
-        sav.setAccount(acc);
         rsAcc.add(acc);
-        rs.add(sav);
         result.setResult(rsAcc);
         result.setResultSav(rs);
 
@@ -442,7 +433,7 @@ public class HomeController {
     }
 
     @GetMapping("/pullout/delete")
-    public String pulloutSaving(@RequestParam(name = "id") int id, @RequestParam(name = "acc") int accId,
+    public String pulloutSaving(@RequestParam(name = "savid") int id, @RequestParam(name = "accid") int accId,
             HttpSession session, Model model) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
@@ -451,14 +442,14 @@ public class HomeController {
         savRepo.pullout(id);
         Saving sav = savRepo.findSaving(id);
         if (sav.getStatus() == 1) {
-            return "redirect:/pullout?id=" + accId + "&msg=fail";
+            return "redirect:/pullout?accid=" + accId + "&msg=fail";
         }
-        return "redirect:/pullout_bill?acc=" + accId + "&id=" + id;
+        return "redirect:/pullout_bill?accid=" + accId + "&savid=" + id;
 
     }
 
     @GetMapping("/pullout_bill")
-    public String pulloutBill(@RequestParam(name = "id") int id, @RequestParam(name = "acc") int accId,
+    public String pulloutBill(@RequestParam(name = "savid") int id, @RequestParam(name = "accid") int accId,
             HttpSession session, Model model) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
@@ -477,7 +468,7 @@ public class HomeController {
     }
 
     @GetMapping("/pullout")
-    public String publlout(@RequestParam(required = false, name = "id") String accId,
+    public String publlout(@RequestParam(required = false, name = "accid") String accId,
             @RequestParam(required = false, name = "msg") String msg, Model model, HttpSession session) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";

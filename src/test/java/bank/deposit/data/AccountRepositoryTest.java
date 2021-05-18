@@ -146,9 +146,9 @@ class AccountRepositoryTest {
 	// Find account by name - valid
 	@Test
 	void findByNameValid() {
-		String name = "Kiên";
+		String name = "Trung Kiên";
+		ArrayList<Account> accList = accRepo.findByUserName("%" + name + "%");
 
-		ArrayList<Account> accList = accRepo.findByUserName(name);
 		for (int i = 0; i < accList.size(); i++) {
 
 			assertEquals(true, accList.get(i).getName().contains(name), accList.get(i).getName());
@@ -161,7 +161,7 @@ class AccountRepositoryTest {
 	void findByNameInvalid1() {
 		String name = "Tên không có";
 
-		ArrayList<Account> accList = accRepo.findByUserName(name);
+		ArrayList<Account> accList = accRepo.findByUserName("%" + name + "%");
 		assertEquals(0, accList.size());
 
 	}
@@ -171,7 +171,7 @@ class AccountRepositoryTest {
 	void findByNameInvalid2() {
 		String name = "00000000000";
 
-		ArrayList<Account> accList = accRepo.findByUserName(name);
+		ArrayList<Account> accList = accRepo.findByUserName("%" + name + "%");
 		assertEquals(0, accList.size());
 	}
 

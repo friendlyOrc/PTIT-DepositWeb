@@ -165,7 +165,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="text-center"><button class="btn btn-success text-center" onclick="window.location.replace('/pullout/delete?acc=${accList[0].id}&id=${saving.id}')">Rút sổ</button></td>    
+                            <td colspan="2" class="text-center"><button class="btn btn-success text-center" onclick="window.location.replace('/pullout/delete?accid=${accList[0].id}&savid=${saving.id}')">Rút sổ</button></td>    
                         </tr>
                     </table>
                             
@@ -176,19 +176,6 @@
                 .catch(err => console.log(err));
         }
 
-        function pullout(id) {
-            if (confirm("Bạn chắc chắn muốn rút sổ?")) {
-                fetch(`http://localhost:8081/api/pullout/delete?id=${id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        window.location.reload();
-                    })
-                    .catch(err => console.log(err));
-            } else {
-
-            }
-        }
     </script>
 
 </html>
