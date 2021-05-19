@@ -3,9 +3,6 @@ package bank.deposit.web;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +34,6 @@ public class HomeController {
         this.savRepo = savRepo;
     }
 
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
-            Pattern.CASE_INSENSITIVE);
-
-    public static boolean validateEmail(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
-        return matcher.find();
-    }
-
     public boolean isAllNumber(String s) {
         for (int i = 0; i < s.length(); i++) {
             try {
@@ -59,14 +48,6 @@ public class HomeController {
     public boolean verifyId(String s) {
         if (isAllNumber(s) && s.length() == 10) {
             return true;
-        }
-        return false;
-    }
-
-    public boolean containsNumber(String s) {
-        for (int i = 0; i <= 9; i++) {
-            if (s.indexOf(String.valueOf(i)) != -1)
-                return true;
         }
         return false;
     }
@@ -129,8 +110,7 @@ public class HomeController {
 
     @GetMapping("/logout")
     public String logout(Model model, HttpSession session) {
-        // session.removeAttribute("account");
-        session.invalidate();
+        session.removeAttribute("account");
         return "redirect:/login";
     }
 
@@ -201,14 +181,10 @@ public class HomeController {
         }
         boolean rs = false;
         try {
-            if (!specialKey(account.getName()) || containsNumber(account.getName())) {
+            if (!specialKey(account.getName())) {
                 model.addAttribute("msg", "name");
-            } else if (account.getName().length() > 25) {
-                model.addAttribute("msg", "longName");
             } else if (!specialKey(account.getAddress())) {
                 model.addAttribute("msg", "addr");
-            } else if (!validateEmail(account.getEmail())) {
-                model.addAttribute("msg", "email");
             } else if (!specialKey(account.getIdcard())) {
                 model.addAttribute("msg", "cccd");
             } else if (!verifyId(account.getIdcard())) {
