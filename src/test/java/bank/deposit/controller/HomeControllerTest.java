@@ -234,4 +234,94 @@ public class HomeControllerTest {
         assertEquals(home.validDOB(date), true);
     }
 
+    @Test
+    /**
+     * Valid Email
+     */
+    void validEmail() {
+        String email = "kienpt@gmail.com";
+        assertEquals(home.validateEmail(email), true);
+    }
+
+    @Test
+    /**
+     * Invalid Email - No @
+     */
+    void invalidEmail() {
+        String email = "kienpt";
+        assertEquals(home.validateEmail(email), false);
+    }
+
+    @Test
+    /**
+     * Invalid Email - Only @gmail.com
+     */
+    void invalidEmail2() {
+        String email = "@gmail.com";
+        assertEquals(home.validateEmail(email), false);
+    }
+
+    @Test
+    /**
+     * Invalid Email - No .com
+     */
+    void invalidEmail3() {
+        String email = "kienpt@gmail";
+        assertEquals(home.validateEmail(email), false);
+    }
+
+    @Test
+    /**
+     * Invalid Email - Special Character
+     */
+    void invalidEmail4() {
+        String email = "ki!#!#enpt@gmail";
+        assertEquals(home.validateEmail(email), false);
+    }
+
+    @Test
+    /**
+     * Name contain number check - no number
+     */
+    void nameNoNumber() {
+        String name = "kien";
+        assertEquals(home.isContainsNumber(name), false);
+    }
+
+    @Test
+    /**
+     * Name contain number check - number at first index
+     */
+    void nameHasNumberFirst() {
+        String name = "0kien";
+        assertEquals(home.isContainsNumber(name), true);
+    }
+
+    @Test
+    /**
+     * Name contain number check - number at last index
+     */
+    void nameHasNumberLast() {
+        String name = "kien0";
+        assertEquals(home.isContainsNumber(name), true);
+    }
+
+    @Test
+    /**
+     * Name contain number check - number at middle index
+     */
+    void nameHasNumberMiddle() {
+        String name = "ki0en";
+        assertEquals(home.isContainsNumber(name), true);
+    }
+
+    @Test
+    /**
+     * Name contain number check - all number
+     */
+    void nameAllNumber() {
+        String name = "00000000";
+        assertEquals(home.isContainsNumber(name), true);
+    }
+
 }

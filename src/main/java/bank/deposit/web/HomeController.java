@@ -3,6 +3,9 @@ package bank.deposit.web;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,14 @@ public class HomeController {
         this.env = env;
         this.accRepo = accRepo;
         this.savRepo = savRepo;
+    }
+
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+            Pattern.CASE_INSENSITIVE);
+
+    public boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
     }
 
     public boolean isAllNumber(String s) {
@@ -174,6 +185,14 @@ public class HomeController {
         return cal;
     }
 
+    public boolean isContainsNumber(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) >= '0' && s.charAt(i) <= '9')
+                return true;
+        }
+        return false;
+    }
+
     @PostMapping("/members")
     public String postMember(Account account, Model model, HttpSession session) {
         if (session.getAttribute("account") == null) {
@@ -181,8 +200,10 @@ public class HomeController {
         }
         boolean rs = false;
         try {
-            if (!specialKey(account.getName())) {
+            if (!specialKey(account.getName()) || isContainsNumber(account.getName())) {
                 model.addAttribute("msg", "name");
+            } else if (account.getName().length() > 25) {
+                model.addAttribute("msg", "longName");
             } else if (!specialKey(account.getAddress())) {
                 model.addAttribute("msg", "addr");
             } else if (!specialKey(account.getIdcard())) {
@@ -191,6 +212,8 @@ public class HomeController {
                 model.addAttribute("msg", "cccdWord");
             } else if (!validDOB(account.getDob())) {
                 model.addAttribute("msg", "date");
+            } else if (!validateEmail(account.getEmail())) {
+                model.addAttribute("msg", "email");
             } else {
                 ArrayList<Account> accList = accRepo.findAccountByIdcard(account.getIdcard());
                 ArrayList<Account> accList2 = accRepo.findAccountByUsername(account.getUsername());
@@ -210,7 +233,9 @@ public class HomeController {
                     rs = true;
                 }
             }
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             model.addAttribute("msg", "fail");
         }
         model.addAttribute("page", "Member");
