@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.transaction.Transactional;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,19 +28,18 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find saving with empty input account ID
+	// Test find saving with empty input account ID
 	void findAllSavingEmptyAccountID() {
 		String input = "";
-		int accountId;
 		try {
-			accountId = Integer.parseInt(input);
+			Integer.parseInt(input);
 		} catch (NumberFormatException e) {
 			fail("Empty Input");
 		}
 	}
 
 	@Test
-	//Test find all saving with exist account Id
+	// Test find all saving with exist account Id
 	void findAllSavingValidAccountID() {
 		int accountId = 1;
 		ArrayList<Saving> listSaving = this.savRepo.findAllSaving(accountId);
@@ -49,7 +47,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find all saving with exist account Id
+	// Test find all saving with exist account Id
 	void findAllSavingValidAccountID2() {
 		int accountId = 2;
 		ArrayList<Saving> listSaving = this.savRepo.findAllSaving(accountId);
@@ -57,7 +55,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find all saving with non-exist account Id
+	// Test find all saving with non-exist account Id
 	void findAllSavingInValidAccountID2() {
 		int accountId = 3;
 		ArrayList<Saving> listSaving = this.savRepo.findAllSaving(accountId);
@@ -65,7 +63,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find all saving with non-exist account Id
+	// Test find all saving with non-exist account Id
 	void findAllSavingInValidAccountID() {
 		int accountId = 100;
 		ArrayList<Saving> listSaving = this.savRepo.findAllSaving(accountId);
@@ -73,7 +71,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find all saving with non-exist account Id
+	// Test find all saving with non-exist account Id
 	void findAllSavingInValidAccountID1() {
 		int accountId = 101;
 		ArrayList<Saving> listSaving = this.savRepo.findAllSaving(accountId);
@@ -81,7 +79,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find saving with exist Id
+	// Test find saving with exist Id
 	void findSavingWithValidID() {
 		int savingID = 4;
 		Saving saving = this.savRepo.findSaving(savingID);
@@ -89,7 +87,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find saving with exist Id
+	// Test find saving with exist Id
 	void findSavingWithValidID1() {
 		int savingID = 14;
 		Saving saving = this.savRepo.findSaving(savingID);
@@ -97,7 +95,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find saving with non-exist Id
+	// Test find saving with non-exist Id
 	void findSavingWithInValidID() {
 		int savingID = 16;
 		Saving saving = this.savRepo.findSaving(savingID);
@@ -105,7 +103,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test find saving with non-exist Id
+	// Test find saving with non-exist Id
 	void findSavingWithInValidID1() {
 		int savingID = 20;
 		Saving saving = this.savRepo.findSaving(savingID);
@@ -113,7 +111,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test pull out with exist Id
+	// Test pull out with exist Id
 	void pulloutWithValidID() {
 		int id = 4;
 		this.savRepo.pullout(id);
@@ -125,7 +123,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test pull out with exist Id
+	// Test pull out with exist Id
 	void pulloutWithValidID1() {
 		int id = 14;
 		this.savRepo.pullout(id);
@@ -137,7 +135,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test pull out with non-exist Id
+	// Test pull out with non-exist Id
 	void pulloutWithInValidID() {
 		int id = 5;
 		this.savRepo.pullout(id);
@@ -149,7 +147,7 @@ class SavingRepositoryTest {
 	}
 
 	@Test
-	//Test pull out with non-exist Id
+	// Test pull out with non-exist Id
 	void pulloutWithInValidID2() {
 		int id = 15;
 		this.savRepo.pullout(id);
