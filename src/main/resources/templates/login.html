@@ -18,7 +18,7 @@
                     <div th:switch="${msg}"> 
                         <div th:case="username"><div class="alert alert-danger" >Tài khoản không tồn tại!</div></div>
                         <div th:case="password"><div class="alert alert-danger" >Mật khẩu sai!</div></div>
-                        <div th:case="error"><div class="alert alert-danger" >Lỗi kết nối!</div></div>
+                        <div th:case="speUsername"><div class="alert alert-danger" >Tên đăng nhập không được chứa ký tự đặc biệt!</div></div>
                         <p th:case="*"></p> 
                       </div>
                     

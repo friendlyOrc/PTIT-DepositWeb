@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import bank.deposit.Saving;
 import bank.deposit.data.AccountRepository;
 import bank.deposit.data.SavingRepository;
+import bank.deposit.model.Saving;
 
 @SpringBootTest
 @Transactional
@@ -37,7 +37,7 @@ public class APITest {
     // private String url = "https://depositweb.herokuapp.com/";
 
     @Autowired
-    public APITest(AccountRepository accRepo, SavingRepository savRepo) {
+    APITest(AccountRepository accRepo, SavingRepository savRepo) {
         this.accRepo = accRepo;
         this.savRepo = savRepo;
     }
@@ -138,7 +138,7 @@ public class APITest {
     // Find a exist saving
     @Test
     void findSaving() throws ClientProtocolException, IOException, JSONException {
-        int id = 44;
+        int id = 1;
 
         HttpUriRequest request = new HttpGet(url + "api/pullout?id=" + id);
 

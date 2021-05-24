@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import bank.deposit.Account;
 import bank.deposit.data.AccountRepository;
+import bank.deposit.model.Account;
 import bank.deposit.web.HomeController;
 import io.florianlopes.spring.test.web.servlet.request.MockMvcRequestBuilderUtils;
 
@@ -119,6 +119,23 @@ public class LoginControllerTest {
 
         assertAll("Verify login page loads", () -> assertEquals(200, status), () -> assertEquals("login", view),
                 () -> assertEquals("password", msg));
+    }
+
+    // Test post login with special character in username
+    @Test
+    void loginInvalidSpeUsername() throws Exception {
+        String url = "/login";
+        accInvalidUN.setUsername("kienpt = $%^");
+
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilderUtils.postForm(url, accInvalidUN).contentType(APPLICATION_JSON_UTF8))
+                .andReturn();
+        String view = mvcResult.getModelAndView().getViewName();
+        String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
+        int status = mvcResult.getResponse().getStatus();
+
+        assertAll("Verify login page loads", () -> assertEquals(200, status), () -> assertEquals("login", view),
+                () -> assertEquals("speUsername", msg));
     }
 
     // Log out lead user to the login page

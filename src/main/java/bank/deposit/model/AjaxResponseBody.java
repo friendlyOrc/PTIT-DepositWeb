@@ -1,4 +1,4 @@
-package bank.deposit;
+package bank.deposit.model;
 
 
 import java.io.Serializable;
@@ -16,7 +16,5 @@ public class AjaxResponseBody implements Serializable{
     private String msg;
     private ArrayList<Account> result;
     private ArrayList<Saving> resultSav;
-
-    //getters and setters
 
 }

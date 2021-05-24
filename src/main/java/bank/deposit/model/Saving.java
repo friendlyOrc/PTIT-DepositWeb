@@ -1,8 +1,7 @@
-package bank.deposit;
+package bank.deposit.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -19,11 +18,11 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "account")
+@Table(name = "saving")
 @NoArgsConstructor
 @AllArgsConstructor
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-public class Account implements Serializable {
+public class Saving implements Serializable {
     /**
      *
      */
@@ -32,24 +31,32 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
-    private String name;
+    private float balance;
     @NotNull
-    private Date dob;
+    private int status;
     @NotNull
-    private int sex;
+    private int type;
     @NotNull
-    private String address;
+    private float interest;
     @NotNull
-    private String idcard;
+    private int time;
     @NotNull
-    private String email;
-
-    private String username;
-
-    private String password;
+    @Column(name = "createtime")
+    private Date createTime;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Saving> savings;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "accountid")
+    private Account account;
 
+    @JsonIgnore
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "staffid")
+    private Account staff;
+
+    @Override
+    public String toString() {
+        return "null";
+
+    }
 }

@@ -9,24 +9,26 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import bank.deposit.Account;
+import bank.deposit.model.Account;
 
 // Test cases for AccountDAO
 @SpringBootTest
 @Transactional
 class AccountRepositoryTest {
 	private final AccountRepository accRepo;
+	private Account acc;
 
 	@Autowired
 	AccountRepositoryTest(AccountRepository accRepo) {
 		this.accRepo = accRepo;
+		acc = accRepo.findOneAccount(1);
 	}
 
 	// Login valid
 	@Test
 	void loginValid() {
-		String username = "kienpt";
-		String password = "123";
+		String username = acc.getUsername();
+		String password = acc.getPassword();
 
 		ArrayList<Account> accList = accRepo.findAccount(username, password);
 		for (int i = 0; i < accList.size(); i++) {
@@ -146,7 +148,7 @@ class AccountRepositoryTest {
 	// Find account by name - valid
 	@Test
 	void findByNameValid() {
-		String name = "Trung Kiên";
+		String name = acc.getName();
 		ArrayList<Account> accList = accRepo.findByUserName("%" + name + "%");
 
 		for (int i = 0; i < accList.size(); i++) {

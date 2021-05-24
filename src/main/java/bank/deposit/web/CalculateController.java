@@ -9,25 +9,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class HomeController {
+public class CalculateController {
 
     private Environment env;
 
     @Autowired
-    public HomeController(Environment env) {
+    public CalculateController(Environment env) {
         this.env = env;
     }
 
-    @GetMapping("/")
-    public String home(Model model, HttpSession session) {
+    @GetMapping("/calc")
+    public String calc(Model model, HttpSession session) {
         if (session.getAttribute("account") == null) {
             return "redirect:/login";
         }
 
-        model.addAttribute("page", "Home");
-        model.addAttribute("title", "Trang chủ");
-        return "home";
-
+        model.addAttribute("page", "Calc");
+        model.addAttribute("title", "Tính lãi");
+        return "calc";
     }
 
 }

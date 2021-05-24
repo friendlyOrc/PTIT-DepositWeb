@@ -11,8 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import bank.deposit.Account;
-import bank.deposit.Saving;
+import bank.deposit.data.AccountRepository;
+import bank.deposit.model.Account;
+import bank.deposit.model.Saving;
 import bank.deposit.web.HomeController;
 import io.florianlopes.spring.test.web.servlet.request.MockMvcRequestBuilderUtils;
 
@@ -21,6 +22,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import java.nio.charset.Charset;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 @SpringBootTest
@@ -28,16 +31,21 @@ import java.util.HashMap;
 @Transactional
 public class SignUpControllerTest {
         private final HomeController home;
+        private final AccountRepository accRepo;
         private MockMvc mockMvc;
         private Account acc;
+        private int accNum;
 
         public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
                         MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
         @Autowired
-        public SignUpControllerTest(HomeController home, MockMvc mockMvc) {
+        public SignUpControllerTest(HomeController home, MockMvc mockMvc, AccountRepository accRepo) {
                 this.home = home;
                 this.mockMvc = mockMvc;
+                this.accRepo = accRepo;
+
+                accNum = ((ArrayList<Account>) accRepo.findAll()).size();
                 Date date = Date.valueOf("1999-07-20");
                 acc = new Account(1000, "testAcc", date, 1, "abc", "1000999999", "test@gmail.com", "", "",
                                 new ArrayList<Saving>());
@@ -89,8 +97,26 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                ArrayList<Account> accList = (ArrayList<Account>) accRepo.findAll();
+                Collections.sort(accList, new Comparator<Account>() {
+
+                        public int compare(Account acc1, Account acc2) {
+                                int id1 = acc1.getId();
+                                int id2 = acc2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
                 assertAll("Verify user page loads", () -> assertEquals(200, status), () -> assertEquals("user", view),
-                                () -> assertEquals("success", msg));
+                                () -> assertEquals("success", msg),
+                                () -> assertEquals(acc.getAddress(), accList.get(0).getAddress()),
+                                () -> assertEquals(acc.getDob(), accList.get(0).getDob()),
+                                () -> assertEquals(acc.getEmail(), accList.get(0).getEmail()),
+                                () -> assertEquals(acc.getIdcard(), accList.get(0).getIdcard()),
+                                () -> assertEquals(acc.getName(), accList.get(0).getName()),
+                                () -> assertEquals(acc.getSex(), accList.get(0).getSex()));
         }
 
         // Fail create account - Session timeout
@@ -107,8 +133,10 @@ public class SignUpControllerTest {
                 String view = mvcResult.getModelAndView().getViewName();
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Special Session timeout", () -> assertEquals(302, status),
-                                () -> assertEquals("redirect:/login", view));
+                                () -> assertEquals("redirect:/login", view), () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Special key in name
@@ -127,8 +155,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Special key in name", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("name", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("name", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Number in name
@@ -147,8 +178,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Number in name", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("name", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("name", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Too long name
@@ -167,8 +201,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Too long name", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("longName", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("longName", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Special key in address
@@ -187,8 +224,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Special key in address", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("addr", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("addr", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Not valid Email
@@ -207,8 +247,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Not valid Email", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("email", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("email", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Special key in idcard
@@ -227,8 +270,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Special key in idcard", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("cccd", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("cccd", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Invalid Idcard - Too short
@@ -247,8 +293,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Invalid Idcard - Too short", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("cccdWord", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("cccdWord", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Invalid Idcard - Too long
@@ -267,8 +316,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Invalid Idcard - Too long", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("cccdWord", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("cccdWord", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Invalid Idcard - Contains text
@@ -287,8 +339,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Invalid Idcard - Contains text", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("cccdWord", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("cccdWord", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Invalid DOB
@@ -307,8 +362,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Invalid DOB", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("date", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("date", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
         // Fail create account - Duplicate ID card
@@ -327,8 +385,11 @@ public class SignUpControllerTest {
                 String msg = (String) mvcResult.getModelAndView().getModel().get("msg");
                 int status = mvcResult.getResponse().getStatus();
 
+                int checkAccNum = ((ArrayList<Account>) accRepo.findAll()).size();
+
                 assertAll("Fail create account - Duplicate ID card", () -> assertEquals(200, status),
-                                () -> assertEquals("add_user", view), () -> assertEquals("dup", msg));
+                                () -> assertEquals("add_user", view), () -> assertEquals("dup", msg),
+                                () -> assertEquals(accNum, checkAccNum));
         }
 
 }

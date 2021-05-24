@@ -11,8 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import bank.deposit.Account;
 import bank.deposit.data.AccountRepository;
+import bank.deposit.data.SavingRepository;
+import bank.deposit.model.Account;
+import bank.deposit.model.Saving;
 import bank.deposit.web.HomeController;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,6 +28,7 @@ import java.util.HashMap;
 public class PullOutControllerTest {
         private final HomeController home;
         private final AccountRepository accRepo;
+        private final SavingRepository savRepo;
         private MockMvc mockMvc;
         private Account acc;
 
@@ -33,10 +36,13 @@ public class PullOutControllerTest {
                         MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
         @Autowired
-        public PullOutControllerTest(HomeController home, AccountRepository accRepo, MockMvc mockMvc) {
+        public PullOutControllerTest(HomeController home, AccountRepository accRepo, MockMvc mockMvc,
+                        SavingRepository savRepo) {
                 this.home = home;
                 this.accRepo = accRepo;
                 this.mockMvc = mockMvc;
+                this.savRepo = savRepo;
+
                 acc = accRepo.findOneAccount(5);
         }
 
@@ -114,13 +120,33 @@ public class PullOutControllerTest {
                 sessionattr.put("account", acc);
 
                 MvcResult mvcResult = mockMvc.perform(
-                                get("/pullout/delete?accid=" + acc.getId() + "&savid=104").sessionAttrs(sessionattr))
+                                get("/pullout/delete?accid=" + acc.getId() + "&savid=1").sessionAttrs(sessionattr))
                                 .andReturn();
                 String view = mvcResult.getModelAndView().getViewName();
                 int status = mvcResult.getResponse().getStatus();
 
+                Saving checkSav = savRepo.findSaving(1);
+
                 assertAll("Verify saving list page loads", () -> assertEquals(302, status),
-                                () -> assertEquals("redirect:/pullout_bill?accid=5&savid=104", view));
+                                () -> assertEquals("redirect:/pullout_bill?accid=5&savid=1", view),
+                                () -> assertEquals(0, checkSav.getStatus()));
+
+        }
+
+        // Delete a nonexist sav id
+        @Test
+        void deleteSavingNotExist() throws Exception {
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+
+                MvcResult mvcResult = mockMvc.perform(
+                                get("/pullout/delete?accid=" + acc.getId() + "&savid=10").sessionAttrs(sessionattr))
+                                .andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                assertAll("Verify pull out page load with fail", () -> assertEquals(302, status),
+                                () -> assertEquals("redirect:/pullout?accid=5&msg=fail", view));
 
         }
 
@@ -128,13 +154,16 @@ public class PullOutControllerTest {
         @Test
         void deleteSavingTimout() throws Exception {
 
-                MvcResult mvcResult = mockMvc.perform(get("/pullout/delete?accid=" + acc.getId() + "&savid=104"))
+                MvcResult mvcResult = mockMvc.perform(get("/pullout/delete?accid=" + acc.getId() + "&savid=1"))
                                 .andReturn();
                 String view = mvcResult.getModelAndView().getViewName();
                 int status = mvcResult.getResponse().getStatus();
 
+                Saving checkSav = savRepo.findSaving(1);
+
                 assertAll("Verify saving list page loads", () -> assertEquals(302, status),
-                                () -> assertEquals("redirect:/login", view));
+                                () -> assertEquals("redirect:/login", view),
+                                () -> assertEquals(1, checkSav.getStatus()));
 
         }
 
@@ -145,7 +174,7 @@ public class PullOutControllerTest {
                 sessionattr.put("account", acc);
 
                 MvcResult mvcResult = mockMvc.perform(
-                                get("/pullout_bill?accid=" + acc.getId() + "&savid=34").sessionAttrs(sessionattr))
+                                get("/pullout_bill?accid=" + acc.getId() + "&savid=3").sessionAttrs(sessionattr))
                                 .andReturn();
                 String view = mvcResult.getModelAndView().getViewName();
                 int status = mvcResult.getResponse().getStatus();
@@ -159,7 +188,7 @@ public class PullOutControllerTest {
         @Test
         void deleteBillTimeout() throws Exception {
 
-                MvcResult mvcResult = mockMvc.perform(get("/pullout_bill?accid=" + acc.getId() + "&savid=34"))
+                MvcResult mvcResult = mockMvc.perform(get("/pullout_bill?accid=" + acc.getId() + "&savid=3"))
                                 .andReturn();
                 String view = mvcResult.getModelAndView().getViewName();
                 int status = mvcResult.getResponse().getStatus();

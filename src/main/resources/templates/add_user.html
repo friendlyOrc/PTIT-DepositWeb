@@ -17,13 +17,13 @@
                 <ol class="breadcrumb">
                     <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
                     <li class="active">Trang chủ </li>
-                    <li class=""> / Đăng kí khách hàng mới </li>
+                    <li class=""> / Đăng ký khách hàng mới </li>
                 </ol>
             </div>
             
             <div class="row page-header">
                 <div class="col-sm-12">
-                    <h1>Đăng kí khách hàng mới</h1> 
+                    <h1>Đăng ký khách hàng mới</h1> 
                 </div>
             </div>
             <div class="row add_user">
@@ -35,7 +35,7 @@
                         <div th:case="cccd"><div class="alert alert-danger" >Số CMT/CCCD không được chứa ký tự đặc biệt!</div></div>
                         <div th:case="cccdWord"><div class="alert alert-danger" >Số CMT/CCCD không hợp lệ!</div></div>
                         <div th:case="acc"><div class="alert alert-danger" >Tên đăng nhập không được chứa ký tự đặc biệt!</div></div>
-                        <div th:case="dup"><div class="alert alert-danger" >Số chứng minh thư đã đăng kí trước đó!</div></div>
+                        <div th:case="dup"><div class="alert alert-danger" >Số chứng minh thư đã Đăng ký trước đó!</div></div>
                         <div th:case="dupacc"><div class="alert alert-danger" >Tên người dùng đã được sử dụng!</div></div>
                         <div th:case="fail"><div class="alert alert-danger" >Lỗi kết nối!</div></div>
                         <div th:case="email"><div class="alert alert-danger" >Email không hợp lệ!</div></div>
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                             
-                            <button type="submit" class="btn btn-success" name="sbm">Đăng kí</button>
+                            <button type="submit" class="btn btn-success" name="sbm">Đăng ký</button>
                         </fieldset>
                     </form>
                 </div>
