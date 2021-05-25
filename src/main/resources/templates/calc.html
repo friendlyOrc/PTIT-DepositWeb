@@ -28,15 +28,9 @@
                 </div>
                 <div class="row add_user">
                     <div class="col-6">
-                        <!-- <div class="alert alert-danger" style="display: none;" id="smInp">Thông tin không hợp lệ!</div>
-                    <div class="alert alert-danger" style="display: none;" id="smTnt">Thông tin không hợp lệ!</div>
-                    <div class="alert alert-danger" style="display: none;" id="smTime">Thông tin không hợp lệ!</div> -->
                         <div class="alert alert-danger" style="display: none;" id="speInp">Tiền gửi không được chứa ký tự khác ngoài chữ số!</div>
-                        <!-- <div class="alert alert-danger" style="display: none;" id="speInt">Lãi suất không được chứa ký tự khác ngoài chữ số!</div>
-                        <div class="alert alert-danger" style="display: none;" id="speTime">Kỳ hạn không được chứa ký tự khác ngoài chữ số!</div> -->
                         <div class="alert alert-danger" style="display: none;" id="empInp">Tiền gửi không được để trống!</div>
-                        <!-- <div class="alert alert-danger" style="display: none;" id="empInt">Lãi suất không được để trống!</div>
-                        <div class="alert alert-danger" style="display: none;" id="empTime">Kỳ hạn không được để trống!</div> -->
+                        <div class="alert alert-danger" style="display: none;" id="smlInp">Tiền gửi nhỏ nhất là 1.000.000đ!</div>
                         <fieldset>
                             <div class="form-group">
                                 <label for="type">Phương thức tính lãi tiết kiệm</label> <br>
@@ -252,11 +246,8 @@
             let time = parseFloat(document.getElementsByName('time')[0].value);
 
             document.getElementById('speInp').style.display = "none";
-            // document.getElementById('speInt').style.display = "none";
-            // document.getElementById('speTime').style.display = "none";
             document.getElementById('empInp').style.display = "none";
-            // document.getElementById('empInt').style.display = "none";
-            // document.getElementById('empTime').style.display = "none";
+            document.getElementById('smlInp').style.display = "none";
 
             if ((!isFloat(money) && !isInt(money)) || !regex.test(document.getElementsByName('input')[0].value)) {
                 if (document.getElementsByName('input')[0].value == "") {
@@ -266,19 +257,25 @@
                 }
                 document.getElementById('moneyInput').focus();
             } else {
-                let type = document.getElementsByName('type')[0].value;
-                if (type == 1) {
-                    int__sum = money * (interest / 100) * (time / 12);
-                    sum = money + int__sum;
+                if(document.getElementsByName('input')[0].value < 1000000){
+                    document.getElementById('smlInp').style.display = "block";
+                    document.getElementById('moneyInput').focus();
+                }else{
 
-                } else {
-                    int__sum = money * (interest / 100) * (time / 12);
-                    sum = money + int__sum;
-                    inte = int__sum / time;
+                    let type = document.getElementsByName('type')[0].value;
+                    if (type == 1) {
+                        int__sum = money * (interest / 100) * (time / 12);
+                        sum = money + int__sum;
+
+                    } else {
+                        int__sum = money * (interest / 100) * (time / 12);
+                        sum = money + int__sum;
+                        inte = int__sum / time;
+                    }
+                    document.getElementById('sum').innerHTML = toCurrency(Math.round(sum / 1000) * 1000);
+                    document.getElementById('interest__sum').innerHTML = toCurrency(Math.round(int__sum / 1000) * 1000);
+                    document.getElementById('interest').innerHTML = toCurrency(Math.round(inte / 1000) * 1000);
                 }
-                document.getElementById('sum').innerHTML = toCurrency(Math.round(sum / 1000) * 1000);
-                document.getElementById('interest__sum').innerHTML = toCurrency(Math.round(int__sum / 1000) * 1000);
-                document.getElementById('interest').innerHTML = toCurrency(Math.round(inte / 1000) * 1000);
             }
         }
     </script>

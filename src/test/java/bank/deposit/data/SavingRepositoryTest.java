@@ -17,8 +17,6 @@ import bank.deposit.web.HomeController;
 @SpringBootTest
 @Transactional
 class SavingRepositoryTest {
-	private final HomeController home;
-	private final AccountRepository accRepo;
 	private final SavingRepository savRepo;
 	private Account acc1;
 	private Account acc2;
@@ -27,8 +25,6 @@ class SavingRepositoryTest {
 
 	@Autowired
 	public SavingRepositoryTest(HomeController home, AccountRepository accRepo, SavingRepository saveRepo) {
-		this.home = home;
-		this.accRepo = accRepo;
 		this.savRepo = saveRepo;
 		acc1 = accRepo.findOneAccount(5);
 		acc2 = accRepo.findOneAccount(2);

@@ -19,17 +19,17 @@ import bank.deposit.model.Saving;
 @Controller
 public class APIController {
 
-    private Environment env;
     private final AccountRepository accRepo;
     private final SavingRepository savRepo;
 
     @Autowired
     public APIController(Environment env, AccountRepository accRepo, SavingRepository savRepo) {
-        this.env = env;
         this.accRepo = accRepo;
         this.savRepo = savRepo;
     }
 
+
+    // Search API returns an Entity containing the Accounts
     @GetMapping("/search")
     @PostMapping("/api/search")
     public ResponseEntity<?> getSearchResultViaAjax(@RequestParam(name = "name") String name) {
@@ -48,7 +48,8 @@ public class APIController {
 
     }
 
-    // Get a saving API
+    // 
+    // Saerch API returns an Entity containing the Accounts
     @GetMapping("/api/pullout")
     public ResponseEntity<?> getSearchResultViaAjaxSaving(@RequestParam(name = "id") int id) {
 
@@ -61,7 +62,7 @@ public class APIController {
         Account acc = new Account();
 
         if (sav == null) {
-            result.setMsg("no user found!");
+            result.setMsg("no saving found!");
         } else {
             result.setMsg("success");
             acc = accRepo.findOneAccount(sav.getAccount().getId());

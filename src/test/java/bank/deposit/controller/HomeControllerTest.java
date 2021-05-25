@@ -20,14 +20,12 @@ import java.util.HashMap;
 @AutoConfigureMockMvc
 public class HomeControllerTest {
     private final HomeController home;
-    private final AccountRepository accRepo;
     private MockMvc mockMvc;
     private static Account acc;
 
     @Autowired
     public HomeControllerTest(HomeController home, AccountRepository accRepo, MockMvc mockMvc) {
         this.home = home;
-        this.accRepo = accRepo;
         this.mockMvc = mockMvc;
         acc = accRepo.findOneAccount(1);
     }

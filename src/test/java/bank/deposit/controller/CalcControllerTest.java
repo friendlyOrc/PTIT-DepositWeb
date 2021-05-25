@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 
 import bank.deposit.data.AccountRepository;
 import bank.deposit.model.Account;
@@ -20,12 +19,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
 public class CalcControllerTest {
     private final HomeController home;
-    private final AccountRepository accRepo;
     private MockMvc mockMvc;
     private Account acc;
 
@@ -35,7 +35,6 @@ public class CalcControllerTest {
     @Autowired
     public CalcControllerTest(HomeController home, AccountRepository accRepo, MockMvc mockMvc) {
         this.home = home;
-        this.accRepo = accRepo;
         this.mockMvc = mockMvc;
         acc = accRepo.findOneAccount(1);
     }
@@ -68,8 +67,7 @@ public class CalcControllerTest {
         String view = mvcResult.getModelAndView().getViewName();
         int status = mvcResult.getResponse().getStatus();
 
-        assertAll("Verify search accout page loads", () -> assertEquals(200, status),
-                () -> assertEquals("calc", view));
+        assertAll("Verify search accout page loads", () -> assertEquals(200, status), () -> assertEquals("calc", view));
 
     }
 

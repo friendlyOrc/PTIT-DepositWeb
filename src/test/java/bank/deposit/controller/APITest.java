@@ -112,7 +112,7 @@ public class APITest {
 
     // Call search API with more than 1 word name
     @Test
-    void searchAPIFullname() throws ClientProtocolException, IOException, JSONException {
+    void searchAPILongName() throws ClientProtocolException, IOException, JSONException {
         String name = "Trung Kiên";
 
         HttpUriRequest request = new HttpGet(url + "search?name=" + name.replace(" ", "%20"));
@@ -176,7 +176,7 @@ public class APITest {
 
         // Then
         assertAll("Search result verify!", () -> assertEquals(200, httpResponse.getStatusLine().getStatusCode()),
-                () -> assertEquals("no user found!", msg));
+                () -> assertEquals("no saving found!", msg));
     }
 
 }

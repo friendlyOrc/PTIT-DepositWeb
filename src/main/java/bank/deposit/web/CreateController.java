@@ -16,12 +16,10 @@ import bank.deposit.data.AccountRepository;
 import bank.deposit.data.SavingRepository;
 import bank.deposit.model.Account;
 import bank.deposit.model.Saving;
-import bank.deposit.web.ValidateFunction;
 
 @Controller
 public class CreateController {
 
-    private Environment env;
     private final AccountRepository accRepo;
     private final SavingRepository savRepo;
     private ValidateFunction val;
@@ -29,7 +27,6 @@ public class CreateController {
     @Autowired
     public CreateController(Environment env, AccountRepository accRepo, SavingRepository savRepo,
             ValidateFunction val) {
-        this.env = env;
         this.accRepo = accRepo;
         this.savRepo = savRepo;
         this.val = val;
@@ -78,7 +75,7 @@ public class CreateController {
                     Account acc = accRepo.findOneAccount(Integer.parseInt(accId));
                     Account staff = (Account) session.getAttribute("account");
                     staff = accRepo.findOneAccount(staff.getId());
-                    int size = savRepo.findAllSaving(acc.getId()).size();
+
                     switch (saving.getTime()) {
                         case 0:
                             saving.setInterest((float) 0.1);

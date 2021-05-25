@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -32,7 +31,6 @@ import java.util.HashMap;
 @Transactional
 public class CreateControllerTest {
         private final HomeController home;
-        private final AccountRepository accRepo;
         private final SavingRepository savRepo;
         private MockMvc mockMvc;
         private Account acc;
@@ -47,7 +45,6 @@ public class CreateControllerTest {
         public CreateControllerTest(HomeController home, AccountRepository accRepo, SavingRepository savRepo,
                         MockMvc mockMvc) {
                 this.home = home;
-                this.accRepo = accRepo;
                 this.mockMvc = mockMvc;
                 this.savRepo = savRepo;
 

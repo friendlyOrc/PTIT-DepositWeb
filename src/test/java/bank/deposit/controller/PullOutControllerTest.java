@@ -27,7 +27,6 @@ import java.util.HashMap;
 @Transactional
 public class PullOutControllerTest {
         private final HomeController home;
-        private final AccountRepository accRepo;
         private final SavingRepository savRepo;
         private MockMvc mockMvc;
         private Account acc;
@@ -39,7 +38,6 @@ public class PullOutControllerTest {
         public PullOutControllerTest(HomeController home, AccountRepository accRepo, MockMvc mockMvc,
                         SavingRepository savRepo) {
                 this.home = home;
-                this.accRepo = accRepo;
                 this.mockMvc = mockMvc;
                 this.savRepo = savRepo;
 

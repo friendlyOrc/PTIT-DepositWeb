@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CalculateController {
 
-    private Environment env;
-
     @Autowired
     public CalculateController(Environment env) {
-        this.env = env;
     }
 
     @GetMapping("/calc")

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +14,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import bank.deposit.data.AccountRepository;
 import bank.deposit.data.SavingRepository;
 import bank.deposit.model.Account;
-import bank.deposit.model.AjaxResponseBody;
 import bank.deposit.model.Saving;
 
 @Controller
 public class PullOutController {
 
-    private Environment env;
     private final AccountRepository accRepo;
     private final SavingRepository savRepo;
 
     @Autowired
     public PullOutController(Environment env, AccountRepository accRepo, SavingRepository savRepo) {
-        this.env = env;
         this.accRepo = accRepo;
         this.savRepo = savRepo;
     }

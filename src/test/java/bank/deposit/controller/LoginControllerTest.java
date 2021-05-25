@@ -24,7 +24,6 @@ import java.util.HashMap;
 @AutoConfigureMockMvc
 public class LoginControllerTest {
     private final HomeController home;
-    private final AccountRepository accRepo;
     private MockMvc mockMvc;
     private Account acc;
     private Account accInvalidPW;
@@ -36,7 +35,6 @@ public class LoginControllerTest {
     @Autowired
     public LoginControllerTest(HomeController home, AccountRepository accRepo, MockMvc mockMvc) {
         this.home = home;
-        this.accRepo = accRepo;
         this.mockMvc = mockMvc;
         acc = accRepo.findOneAccount(1);
         accInvalidPW = accRepo.findOneAccount(2);

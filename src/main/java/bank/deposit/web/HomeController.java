@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    private Environment env;
-
     @Autowired
     public HomeController(Environment env) {
-        this.env = env;
     }
 
     @GetMapping("/")

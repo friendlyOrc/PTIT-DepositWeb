@@ -17,13 +17,11 @@ import bank.deposit.model.Account;
 @Controller
 public class LoginController {
 
-    private Environment env;
     private final AccountRepository accRepo;
     private ValidateFunction val;
 
     @Autowired
     public LoginController(Environment env, AccountRepository accRepo, ValidateFunction val) {
-        this.env = env;
         this.accRepo = accRepo;
         this.val = val;
     }
