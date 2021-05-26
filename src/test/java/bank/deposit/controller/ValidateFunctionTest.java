@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import bank.deposit.model.Saving;
 import bank.deposit.web.ValidateFunction;
 
 import java.sql.Date;
@@ -279,6 +281,89 @@ public class ValidateFunctionTest {
     void nameAllNumber() {
         String name = "00000000";
         assertEquals(val.isContainsNumber(name), true);
+    }
+
+    @Test
+    // Check calculate balance function with term
+    void calcBalanceWithTerm() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -2);
+
+        Saving sav = new Saving();
+        sav.setBalance(1000000);
+        sav.setTime(1);
+        sav.setInterest((float) 3.1);
+        sav.setCreateTime(new Date(cal.getTimeInMillis()));
+
+        float rs = val.calcInterest(sav);
+        assertEquals(1005173, rs);
+    }
+
+    @Test
+    // Check calculate balance function with term, more than 7days to term
+    void calcBalanceWithTermMoreThan7() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -2);
+        cal.add(Calendar.DATE, -10);
+
+        Saving sav = new Saving();
+        sav.setBalance(1000000);
+        sav.setTime(1);
+        sav.setInterest((float) 3.1);
+        sav.setCreateTime(new Date(cal.getTimeInMillis()));
+
+        float rs = val.calcInterest(sav);
+        assertEquals(1005201, rs);
+    }
+
+    @Test
+    // Check calculate balance function with term, 7days to term
+    void calcBalanceWithTerm7() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -2);
+        cal.add(Calendar.DATE, -7);
+
+        Saving sav = new Saving();
+        sav.setBalance(1000000);
+        sav.setTime(1);
+        sav.setInterest((float) 3.1);
+        sav.setCreateTime(new Date(cal.getTimeInMillis()));
+
+        float rs = val.calcInterest(sav);
+        assertEquals(1005193, rs);
+    }
+
+    @Test
+    // Check calculate balance function with term, less than 7days to term
+    void calcBalanceWithTermLessThan7() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -2);
+        cal.add(Calendar.DATE, -6);
+
+        Saving sav = new Saving();
+        sav.setBalance(1000000);
+        sav.setTime(1);
+        sav.setInterest((float) 3.1);
+        sav.setCreateTime(new Date(cal.getTimeInMillis()));
+
+        float rs = val.calcInterest(sav);
+        assertEquals(1005173, rs);
+    }
+
+    @Test
+    // Check calculate balance function with no term
+    void calcBalanceNoTerm() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -36);
+
+        Saving sav = new Saving();
+        sav.setBalance(1000000);
+        sav.setTime(0);
+        sav.setInterest((float) 0.1);
+        sav.setCreateTime(new Date(cal.getTimeInMillis()));
+
+        float rs = val.calcInterest(sav);
+        assertEquals(1000099, rs);
     }
 
 }

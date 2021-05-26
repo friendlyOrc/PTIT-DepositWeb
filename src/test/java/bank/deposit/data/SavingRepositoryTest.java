@@ -32,7 +32,6 @@ class SavingRepositoryTest {
 		sav2 = savRepo.findSaving(2);
 	}
 
-
 	@Test
 	// Test find all saving with exist account Id
 	void findAllSavingValidAccountID() {
@@ -46,7 +45,7 @@ class SavingRepositoryTest {
 	void findAllSavingValidAccountID2() {
 		int accountId = acc2.getId();
 		ArrayList<Saving> listSaving = this.savRepo.findAllSaving(accountId);
-		for(int i = 0; i < listSaving.size(); i++) {
+		for (int i = 0; i < listSaving.size(); i++) {
 			assertEquals(accountId, listSaving.get(i).getAccount().getId());
 		}
 	}
@@ -107,39 +106,4 @@ class SavingRepositoryTest {
 		assertEquals(null, saving);
 	}
 
-	@Test
-	// Test pull out with exist Id
-	void pulloutWithValidID() {
-		int id = sav1.getId();
-		this.savRepo.pullout(id);
-		Saving saving = this.savRepo.findSaving(id);
-		assertEquals(0, saving.getStatus());
-	}
-
-	@Test
-	// Test pull out with exist Id
-	void pulloutWithValidID1() {
-		int id = sav2.getId();
-		this.savRepo.pullout(id);
-		Saving saving = this.savRepo.findSaving(id);
-		assertEquals(0, saving.getStatus());
-	}
-
-	@Test
-	// Test pull out with non-exist Id
-	void pulloutWithInValidID() {
-		int id = sav1.getId() + 100;
-		this.savRepo.pullout(id);
-		Saving saving = this.savRepo.findSaving(id);
-		assertNull(saving);
-	}
-
-	@Test
-	// Test pull out with non-exist Id
-	void pulloutWithInValidID2() {
-		int id = sav1.getId() + 1000;
-		this.savRepo.pullout(id);
-		Saving saving = this.savRepo.findSaving(id);
-		assertNull(saving);
-	}
 }

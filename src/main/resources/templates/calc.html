@@ -272,9 +272,9 @@
                         sum = money + int__sum;
                         inte = int__sum / time;
                     }
-                    document.getElementById('sum').innerHTML = toCurrency(Math.round(sum / 1000) * 1000);
-                    document.getElementById('interest__sum').innerHTML = toCurrency(Math.round(int__sum / 1000) * 1000);
-                    document.getElementById('interest').innerHTML = toCurrency(Math.round(inte / 1000) * 1000);
+                    document.getElementById('sum').innerHTML = toCurrency(Math.round(sum));
+                    document.getElementById('interest__sum').innerHTML = toCurrency(Math.round(int__sum));
+                    document.getElementById('interest').innerHTML = toCurrency(Math.round(inte));
                 }
             }
         }

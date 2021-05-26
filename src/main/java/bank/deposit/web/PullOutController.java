@@ -21,11 +21,14 @@ public class PullOutController {
 
     private final AccountRepository accRepo;
     private final SavingRepository savRepo;
+    private ValidateFunction val;
 
     @Autowired
-    public PullOutController(Environment env, AccountRepository accRepo, SavingRepository savRepo) {
+    public PullOutController(Environment env, AccountRepository accRepo, SavingRepository savRepo,
+            ValidateFunction val) {
         this.accRepo = accRepo;
         this.savRepo = savRepo;
+        this.val = val;
     }
 
     @GetMapping("/pullout/delete")
@@ -35,11 +38,14 @@ public class PullOutController {
             return "redirect:/login";
         }
 
-        savRepo.pullout(id);
         Saving sav = savRepo.findSaving(id);
         if (sav == null) {
             return "redirect:/pullout?accid=" + accId + "&msg=fail";
         }
+        float paid = val.calcInterest(sav);
+        sav.setBalance(paid);
+        sav.setStatus(0);
+        savRepo.save(sav);
         return "redirect:/pullout_bill?accid=" + accId + "&savid=" + id;
 
     }

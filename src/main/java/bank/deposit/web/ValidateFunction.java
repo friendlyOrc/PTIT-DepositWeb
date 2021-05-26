@@ -1,10 +1,13 @@
 package bank.deposit.web;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
+
+import bank.deposit.model.Saving;
 
 @Service
 public class ValidateFunction {
@@ -76,4 +79,38 @@ public class ValidateFunction {
         }
         return false;
     }
+
+    public float calcInterest(Saving sav) {
+        float curr = sav.getBalance();
+
+        Calendar cal = Calendar.getInstance();
+        System.out.println(cal.getTime().toString());
+
+        Calendar create = Calendar.getInstance();
+        create.setTime(sav.getCreateTime());
+
+        if (sav.getTime() > 0) {
+            Calendar temp = Calendar.getInstance();
+            temp.setTime(sav.getCreateTime());
+
+            temp.add(Calendar.MONTH, sav.getTime());
+
+            while (temp.compareTo(cal) <= 0) {
+                curr += curr * (((float) sav.getInterest() / 100) * ((float) sav.getTime() / 12));
+
+                create.setTime(temp.getTime());
+
+                temp.add(Calendar.MONTH, sav.getTime());
+            }
+        }
+
+        long daysBetween = ChronoUnit.DAYS.between(create.toInstant(), cal.toInstant());
+        System.out.println(daysBetween);
+
+        if (daysBetween >= 7) {
+            curr += (0.1 / 100) * curr * ((double) daysBetween / 365);
+        }
+        return Math.round(curr);
+    }
+
 }
