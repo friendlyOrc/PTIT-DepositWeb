@@ -702,6 +702,634 @@ public class CreateControllerTest {
                                 () -> assertEquals(sav.getType(), savList.get(0).getType()));
         }
 
+        // Create a valid saving - no term type 2
+        @Test
+        void createValidInputNoTermType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 1 month type 2
+        @Test
+        void createValidInput1MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 3.1);
+                temp.setTime(1);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 2 months type 2
+        @Test
+        void createValidInput2MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 3.1);
+                temp.setTime(2);
+
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 3 months type 2
+        @Test
+        void createValidInput3MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 3.4);
+                temp.setTime(3);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 4 months type 2
+        @Test
+        void createValidInput4MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 3.4);
+                temp.setTime(4);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 5 months type 2
+        @Test
+        void createValidInput5MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 3.4);
+                temp.setTime(5);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 6 months type 2
+        @Test
+        void createValidInput6MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 4);
+                temp.setTime(6);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 7 months type 2
+        @Test
+        void createValidInput7MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 4);
+                temp.setTime(7);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 8 months type 2
+        @Test
+        void createValidInput8MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 4);
+                temp.setTime(8);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 9 months type 2
+        @Test
+        void createValidInput9MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 4);
+                temp.setTime(9);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 10 months type 2
+        @Test
+        void createValidInput10MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 4);
+                temp.setTime(10);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 11 months type 2
+        @Test
+        void createValidInput11MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 4);
+                temp.setTime(11);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 12 months type 2
+        @Test
+        void createValidInput12MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 5.6);
+                temp.setTime(12);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 13 months type 2
+        @Test
+        void createValidInput13MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 5.6);
+                temp.setTime(13);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 15 months type 2
+        @Test
+        void createValidInput15MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 5.6);
+                temp.setTime(15);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 18 months type 2
+        @Test
+        void createValidInput18MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 5.6);
+                temp.setTime(18);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
+        // Create a valid saving - 24 months type 2
+        @Test
+        void createValidInput24MType2() throws Exception {
+                String url = "/create?accid=" + accClient.getId();
+
+                HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+                sessionattr.put("account", acc);
+                Saving temp = sav;
+                temp.setInterest((float) 5.6);
+                temp.setTime(24);
+                temp.setType(2);
+
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilderUtils.postForm(url, temp)
+                                .sessionAttrs(sessionattr).contentType(APPLICATION_JSON_UTF8)).andReturn();
+                String view = mvcResult.getModelAndView().getViewName();
+                int status = mvcResult.getResponse().getStatus();
+
+                ArrayList<Saving> savList = savRepo.findAllSaving(accClient.getId());
+                Collections.sort(savList, new Comparator<Saving>() {
+
+                        public int compare(Saving s1, Saving s2) {
+                                int id1 = s1.getId();
+                                int id2 = s2.getId();
+
+                                // descending order
+                                return id2 - id1;
+                        }
+                });
+
+                assertAll("Verify user page loads", () -> assertEquals(200, status),
+                                () -> assertEquals("create_bill", view),
+                                () -> assertEquals(temp.getBalance(), savList.get(0).getBalance()),
+                                () -> assertEquals(temp.getInterest(), savList.get(0).getInterest()),
+                                () -> assertEquals(temp.getTime(), savList.get(0).getTime()),
+                                () -> assertEquals(temp.getType(), savList.get(0).getType()));
+        }
+
         // Fail create account - Session timeout
         @Test
         void createInvalidSession() throws Exception {
