@@ -101,7 +101,7 @@
                     let accList = data.result;
                     
                     savList.forEach(saving => {
-                        let savingType = (saving.type == 1) ? "Lãnh lãi cuối tháng" : "Lãnh lãi cuối kỳ";
+                        let savingType = (saving.type == 1) ? "Lãnh lãi hàng tháng" : "Lãnh lãi cuối kỳ";
                         console.log(saving.account);
 
                         let bal = (saving.balance).toLocaleString('en-US', {
