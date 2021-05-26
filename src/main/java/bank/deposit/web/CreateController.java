@@ -66,7 +66,7 @@ public class CreateController {
             model.addAttribute("msg", "speBal");
         } else {
 
-            if (saving.getBalance() <= 1000000) {
+            if (saving.getBalance() < 1000000) {
                 model.addAttribute("msg", "smInp");
             } else {
                 long millis = System.currentTimeMillis();
